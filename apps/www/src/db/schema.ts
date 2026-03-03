@@ -15,7 +15,9 @@ export const tripMessageRole = pgEnum('trip_message_role', [
 export const tripMessages = pgTable('trip_messages', {
     id: uuid().defaultRandom().primaryKey(),
     tripId: uuid()
-        .references(() => trips.id)
+        .references(() => trips.id, {
+            onDelete: 'cascade',
+        })
         .notNull(),
 
     role: tripMessageRole().notNull(),
