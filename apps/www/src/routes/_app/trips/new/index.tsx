@@ -1,5 +1,5 @@
 import { IconSparkles } from '@tabler/icons-react'
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import { useForm } from '@tanstack/react-form'
 import { useMutation } from '@tanstack/react-query'
 import { createTrip } from './-components/actions'
@@ -29,11 +29,20 @@ const quickPrompts = [
 ]
 
 function RouteComponent() {
+    const navigate = useNavigate()
     const mutation = useMutation({
         mutationFn: async (prompt: string) => {
             return await createTrip({
                 data: {
                     prompt,
+                },
+            })
+        },
+        onSuccess(data) {
+            navigate({
+                to: '/trips/$id',
+                params: {
+                    id: data.id,
                 },
             })
         },

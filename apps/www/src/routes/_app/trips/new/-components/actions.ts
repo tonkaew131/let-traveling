@@ -1,6 +1,5 @@
 import { createServerFn } from '@tanstack/react-start'
 import * as z from 'zod'
-import { redirect } from '@tanstack/react-router'
 import { db, schema } from '@/db'
 
 const createTripSchema = z.object({
@@ -17,10 +16,5 @@ export const createTrip = createServerFn({ method: 'POST' })
             })
             .returning()
 
-        throw redirect({
-            to: '/trips/$id',
-            params: {
-                id: trip.id,
-            },
-        })
+        return trip
     })
