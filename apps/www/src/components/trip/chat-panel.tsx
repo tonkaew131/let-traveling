@@ -108,17 +108,21 @@ export function ChatPanel({ messages, status, onSendMessage }: ChatPanelProps) {
     return (
         <div className="bg-card flex h-full flex-col">
             {/* Header */}
-            <div className="flex items-center gap-3 border-b px-4 py-3">
-                <div className="bg-primary flex size-9 items-center justify-center rounded-lg">
-                    <Sparkles className="text-primary-foreground size-5" />
-                </div>
-                <div>
-                    <h1 className="text-foreground text-base font-bold">
-                        Voyager
-                    </h1>
-                    <p className="text-muted-foreground text-xs">
-                        AI Travel Planner
-                    </p>
+            <div className="border-b">
+                <div className="flex w-fit items-center gap-3 px-4 py-3">
+                    <img
+                        src="/logo.png"
+                        alt="Logo"
+                        className="h-9 shrink-0 rounded object-contain"
+                    />
+                    <div>
+                        <h1 className="text-base font-bold text-[#516FA2]">
+                            Let's Traveling
+                        </h1>
+                        <p className="text-muted-foreground text-xs">
+                            Agentic Travel Planner
+                        </p>
+                    </div>
                 </div>
             </div>
 
