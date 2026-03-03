@@ -9,10 +9,10 @@ type PromptInputProps = React.DetailedHTMLProps<
 
 export default function PromptInput(props: PromptInputProps) {
     return (
-        <form className="relative rounded-xl overflow-hidden border bg-background">
+        <form className="relative overflow-hidden rounded-xl border bg-background focus-within:ring-2 focus-within:ring-primary/30 focus-within:ring-offset-background">
             <Textarea
                 rows={1}
-                className="min-h-11.5 w-full resize-y overflow-y-auto  border-none px-4 py-3 pr-12 text-sm"
+                className="min-h-11.5 w-full resize-y overflow-y-auto border-none px-4 py-3 pr-12 text-sm focus-visible:outline-none"
                 {...props}
             />
             <Button

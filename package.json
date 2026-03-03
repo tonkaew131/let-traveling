@@ -5,7 +5,10 @@
     "apps/*"
   ],
   "scripts": {
-    "dev": "bun run --filter \"*\" dev",
+    "dev": "dotenv -- bun run --filter \"*\" dev",
     "format": "bun run --filter \"*\" format"
+  },
+  "dependencies": {
+    "dotenv-cli": "^11.0.0"
   }
 }
