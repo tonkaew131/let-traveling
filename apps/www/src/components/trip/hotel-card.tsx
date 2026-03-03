@@ -48,8 +48,8 @@ export function HotelCard({
     )
 
     return (
-        <Card className="border-accent/20 overflow-hidden">
-            <CardHeader className="bg-accent/5 pb-4">
+        <Card className="border-accent/20 overflow-hidden pt-0">
+            <CardHeader className="bg-accent/5 py-4">
                 <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
                         <Building2 className="text-accent size-5" />

@@ -7,6 +7,9 @@ import PromptInput from '@/components/prompt-input'
 
 export const Route = createFileRoute('/_app/trips/new/')({
     component: RouteComponent,
+    head: () => ({
+        meta: [{ title: 'Plan a New Trip - Let Traveling' }],
+    }),
 })
 
 const quickPrompts = [

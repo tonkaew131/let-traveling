@@ -81,9 +81,9 @@ export function TripDisplay({ messages, onExportPDF }: TripDisplayProps) {
 
             <Tabs
                 defaultValue="itinerary"
-                className="flex flex-1 flex-col overflow-hidden"
+                className="flex flex-1 flex-col gap-0 overflow-hidden"
             >
-                <div className="bg-card border-b px-4">
+                <div className="bg-card border-b">
                     <TabsList className="h-10 w-full justify-start bg-transparent p-0">
                         <TabsTrigger
                             value="itinerary"

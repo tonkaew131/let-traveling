@@ -85,8 +85,8 @@ export function FlightCard({
     totalPrice,
 }: FlightCardProps) {
     return (
-        <Card className="border-primary/20 overflow-hidden">
-            <CardHeader className="bg-primary/5 pb-4">
+        <Card className="border-primary/20 overflow-hidden pt-0">
+            <CardHeader className="bg-primary/5 py-4">
                 <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
                         <Plane className="text-primary size-5" />
