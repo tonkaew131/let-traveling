@@ -31,7 +31,10 @@ function RouteComponent() {
                 <Button
                     variant="ghost"
                     render={
-                        <Link to="/trips" className="text-sm font-medium">
+                        <Link
+                            to="/trips"
+                            className="text-primary hover:text-primary/80 text-sm font-medium"
+                        >
                             <IconPlaneArrival />
                             My trips
                         </Link>
