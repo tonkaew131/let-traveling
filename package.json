@@ -1,0 +1,7 @@
+{
+  "name": "let-traveling",
+  "private": true,
+  "workspaces": [
+    "apps/*"
+  ]
+}
