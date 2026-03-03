@@ -1,22 +1,57 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useChat } from '@ai-sdk/react'
 import { DefaultChatTransport } from 'ai'
 import { IconMap, IconMessage } from '@tabler/icons-react'
+import { getTripMessages } from './-components/actions'
 import { exportTripPDF } from '@/lib/export-pdf'
 import { ChatPanel } from '@/components/trip/chat-panel'
 import { TripDisplay } from '@/components/trip/trip-display'
 
 export const Route = createFileRoute('/trips/$id/')({
+    loader: async ({ params }) => {
+        const rows = await getTripMessages({ data: { tripId: params.id } })
+
+        const initialMessages = rows.map((m) => ({
+            id: m.id,
+            role: m.role === 'function' ? 'assistant' : m.role,
+            parts: [{ type: 'text', text: m.content }],
+        }))
+
+        return { initialMessages }
+    },
     component: RouteComponent,
 })
 
 function RouteComponent() {
+    const { id: tripId } = Route.useParams()
+    const { initialMessages } = Route.useLoaderData()
     const [mobileView, setMobileView] = useState<'chat' | 'trip'>('chat')
+    const didAutoContinueRef = useRef<string | null>(null)
 
-    const { messages, sendMessage, status } = useChat({
+    const { messages, sendMessage, status, setMessages, regenerate } = useChat({
+        id: tripId,
+        messages: initialMessages as any,
         transport: new DefaultChatTransport({ api: '/api/chat' }),
     })
+
+    useEffect(() => {
+        if (didAutoContinueRef.current === tripId) return
+        if (initialMessages.length === 0) return
+
+        didAutoContinueRef.current = tripId
+        setMessages(initialMessages as any)
+
+        const hasAssistant = initialMessages.some(
+            (m: any) => m.role === 'assistant',
+        )
+        const last = initialMessages.at(-1) as any
+        if (!hasAssistant && last.role === 'user') {
+            setTimeout(() => {
+                regenerate({ messageId: last.id }).catch(() => {})
+            }, 0)
+        }
+    }, [initialMessages, regenerate, setMessages, tripId])
 
     const hasTripData = messages.some((m) =>
         m.parts.some(

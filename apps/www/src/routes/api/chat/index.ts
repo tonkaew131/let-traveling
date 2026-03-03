@@ -261,10 +261,20 @@ export const Route = createFileRoute('/api/chat/')({
             POST: async ({ request }) => {
                 const { messages } = await request.json()
 
+                // Back-compat: older persisted chats may store tool/function messages.
+                // The UI chat hook expects roles: 'user' | 'assistant'.
+                const sanitizedMessages = Array.isArray(messages)
+                    ? messages.map((m: any) =>
+                          m?.role === 'function'
+                              ? { ...m, role: 'assistant' }
+                              : m,
+                      )
+                    : messages
+
                 const result = streamText({
                     model: openrouter('google/gemini-3-flash-preview'),
                     system: systemPrompt,
-                    messages: await convertToModelMessages(messages),
+                    messages: await convertToModelMessages(sanitizedMessages),
                     tools,
                     stopWhen: stepCountIs(20),
                 })
