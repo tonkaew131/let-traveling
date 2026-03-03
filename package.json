@@ -5,6 +5,7 @@
     "apps/*"
   ],
   "scripts": {
+    "dev": "bun run --filter \"*\" dev",
     "format": "bun run --filter \"*\" format"
   }
 }
