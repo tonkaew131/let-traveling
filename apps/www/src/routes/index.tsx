@@ -7,7 +7,7 @@ function App() {
     return (
         <div className="bg-card min-h-screen">
             <main className="container mx-auto py-8 flex gap-2">
-                <Button render={<Link to="/design-system">Planning</Link>} />
+                <Button render={<Link to="/trips/new">Planning</Link>} />
                 <Button
                     variant="outline"
                     render={<Link to="/design-system">Design System</Link>}
