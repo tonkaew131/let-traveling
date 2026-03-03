@@ -15,115 +15,115 @@ import { Route as DesignSystemIndexRouteImport } from './routes/design-system/in
 import { Route as AppTripsNewIndexRouteImport } from './routes/_app/trips/new/index'
 
 const AppRouteRoute = AppRouteRouteImport.update({
-  id: '/_app',
-  getParentRoute: () => rootRouteImport,
+    id: '/_app',
+    getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => rootRouteImport,
+    id: '/',
+    path: '/',
+    getParentRoute: () => rootRouteImport,
 } as any)
 const DesignSystemIndexRoute = DesignSystemIndexRouteImport.update({
-  id: '/design-system/',
-  path: '/design-system/',
-  getParentRoute: () => rootRouteImport,
+    id: '/design-system/',
+    path: '/design-system/',
+    getParentRoute: () => rootRouteImport,
 } as any)
 const AppTripsNewIndexRoute = AppTripsNewIndexRouteImport.update({
-  id: '/trips/new/',
-  path: '/trips/new/',
-  getParentRoute: () => AppRouteRoute,
+    id: '/trips/new/',
+    path: '/trips/new/',
+    getParentRoute: () => AppRouteRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
-  '/design-system/': typeof DesignSystemIndexRoute
-  '/trips/new/': typeof AppTripsNewIndexRoute
+    '/': typeof IndexRoute
+    '/design-system/': typeof DesignSystemIndexRoute
+    '/trips/new/': typeof AppTripsNewIndexRoute
 }
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
-  '/design-system': typeof DesignSystemIndexRoute
-  '/trips/new': typeof AppTripsNewIndexRoute
+    '/': typeof IndexRoute
+    '/design-system': typeof DesignSystemIndexRoute
+    '/trips/new': typeof AppTripsNewIndexRoute
 }
 export interface FileRoutesById {
-  __root__: typeof rootRouteImport
-  '/': typeof IndexRoute
-  '/_app': typeof AppRouteRouteWithChildren
-  '/design-system/': typeof DesignSystemIndexRoute
-  '/_app/trips/new/': typeof AppTripsNewIndexRoute
+    __root__: typeof rootRouteImport
+    '/': typeof IndexRoute
+    '/_app': typeof AppRouteRouteWithChildren
+    '/design-system/': typeof DesignSystemIndexRoute
+    '/_app/trips/new/': typeof AppTripsNewIndexRoute
 }
 export interface FileRouteTypes {
-  fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/design-system/' | '/trips/new/'
-  fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/design-system' | '/trips/new'
-  id: '__root__' | '/' | '/_app' | '/design-system/' | '/_app/trips/new/'
-  fileRoutesById: FileRoutesById
+    fileRoutesByFullPath: FileRoutesByFullPath
+    fullPaths: '/' | '/design-system/' | '/trips/new/'
+    fileRoutesByTo: FileRoutesByTo
+    to: '/' | '/design-system' | '/trips/new'
+    id: '__root__' | '/' | '/_app' | '/design-system/' | '/_app/trips/new/'
+    fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
-  AppRouteRoute: typeof AppRouteRouteWithChildren
-  DesignSystemIndexRoute: typeof DesignSystemIndexRoute
+    IndexRoute: typeof IndexRoute
+    AppRouteRoute: typeof AppRouteRouteWithChildren
+    DesignSystemIndexRoute: typeof DesignSystemIndexRoute
 }
 
 declare module '@tanstack/react-router' {
-  interface FileRoutesByPath {
-    '/_app': {
-      id: '/_app'
-      path: ''
-      fullPath: '/'
-      preLoaderRoute: typeof AppRouteRouteImport
-      parentRoute: typeof rootRouteImport
+    interface FileRoutesByPath {
+        '/_app': {
+            id: '/_app'
+            path: ''
+            fullPath: '/'
+            preLoaderRoute: typeof AppRouteRouteImport
+            parentRoute: typeof rootRouteImport
+        }
+        '/': {
+            id: '/'
+            path: '/'
+            fullPath: '/'
+            preLoaderRoute: typeof IndexRouteImport
+            parentRoute: typeof rootRouteImport
+        }
+        '/design-system/': {
+            id: '/design-system/'
+            path: '/design-system'
+            fullPath: '/design-system/'
+            preLoaderRoute: typeof DesignSystemIndexRouteImport
+            parentRoute: typeof rootRouteImport
+        }
+        '/_app/trips/new/': {
+            id: '/_app/trips/new/'
+            path: '/trips/new'
+            fullPath: '/trips/new/'
+            preLoaderRoute: typeof AppTripsNewIndexRouteImport
+            parentRoute: typeof AppRouteRoute
+        }
     }
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/design-system/': {
-      id: '/design-system/'
-      path: '/design-system'
-      fullPath: '/design-system/'
-      preLoaderRoute: typeof DesignSystemIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/_app/trips/new/': {
-      id: '/_app/trips/new/'
-      path: '/trips/new'
-      fullPath: '/trips/new/'
-      preLoaderRoute: typeof AppTripsNewIndexRouteImport
-      parentRoute: typeof AppRouteRoute
-    }
-  }
 }
 
 interface AppRouteRouteChildren {
-  AppTripsNewIndexRoute: typeof AppTripsNewIndexRoute
+    AppTripsNewIndexRoute: typeof AppTripsNewIndexRoute
 }
 
 const AppRouteRouteChildren: AppRouteRouteChildren = {
-  AppTripsNewIndexRoute: AppTripsNewIndexRoute,
+    AppTripsNewIndexRoute: AppTripsNewIndexRoute,
 }
 
 const AppRouteRouteWithChildren = AppRouteRoute._addFileChildren(
-  AppRouteRouteChildren,
+    AppRouteRouteChildren,
 )
 
 const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
-  AppRouteRoute: AppRouteRouteWithChildren,
-  DesignSystemIndexRoute: DesignSystemIndexRoute,
+    IndexRoute: IndexRoute,
+    AppRouteRoute: AppRouteRouteWithChildren,
+    DesignSystemIndexRoute: DesignSystemIndexRoute,
 }
 export const routeTree = rootRouteImport
-  ._addFileChildren(rootRouteChildren)
-  ._addFileTypes<FileRouteTypes>()
+    ._addFileChildren(rootRouteChildren)
+    ._addFileTypes<FileRouteTypes>()
 
 import type { getRouter } from './router.tsx'
 import type { createStart } from '@tanstack/react-start'
 declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-  }
+    interface Register {
+        ssr: true
+        router: Awaited<ReturnType<typeof getRouter>>
+    }
 }

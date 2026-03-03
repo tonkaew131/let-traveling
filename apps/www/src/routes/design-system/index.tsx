@@ -12,7 +12,7 @@ export const Route = createFileRoute('/design-system/')({
 function RouteComponent() {
     return (
         <div className="bg-card min-h-screen">
-            <main className="container mx-auto py-8 grid gap-4">
+            <main className="container mx-auto grid gap-4 py-8">
                 <Button
                     variant="outline"
                     className="w-fit"
@@ -31,7 +31,7 @@ function RouteComponent() {
 
                 <section className="grid gap-2">
                     <Label>Button</Label>
-                    <div className="flex items-center flex-wrap">
+                    <div className="flex flex-wrap items-center">
                         <Button>Default</Button>
                     </div>
                 </section>

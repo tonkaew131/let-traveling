@@ -27,17 +27,17 @@ const quickPrompts = [
 
 function RouteComponent() {
     return (
-        <div className="flex min-h-0 flex-1 flex-col bg-card">
+        <div className="bg-card flex min-h-0 flex-1 flex-col">
             <div className="flex flex-1 flex-col items-center justify-center p-6">
                 <div className="flex flex-col items-center gap-4 text-center">
-                    <div className="flex size-16 items-center justify-center rounded-2xl bg-primary/10">
-                        <IconSparkles className="size-8 text-primary" />
+                    <div className="bg-primary/10 flex size-16 items-center justify-center rounded-2xl">
+                        <IconSparkles className="text-primary size-8" />
                     </div>
                     <div>
-                        <h2 className="text-lg font-bold text-foreground">
+                        <h2 className="text-foreground text-lg font-bold">
                             Plan your next adventure
                         </h2>
-                        <p className="mt-1 text-sm text-muted-foreground leading-relaxed ">
+                        <p className="text-muted-foreground mt-1 text-sm leading-relaxed">
                             Tell me where you want to go, and I will plan
                             flights, hotels, weather, and a day-by-day itinerary
                             for you.
@@ -47,12 +47,12 @@ function RouteComponent() {
                         {quickPrompts.map((qp) => (
                             <button
                                 key={qp.label}
-                                className="rounded-xl border bg-background p-3 text-left transition-colors hover:bg-muted"
+                                className="bg-background hover:bg-muted rounded-xl border p-3 text-left transition-colors"
                             >
-                                <span className="text-sm font-medium text-foreground">
+                                <span className="text-foreground text-sm font-medium">
                                     {qp.label}
                                 </span>
-                                <p className="mt-0.5 text-xs text-muted-foreground line-clamp-1">
+                                <p className="text-muted-foreground mt-0.5 line-clamp-1 text-xs">
                                     Click to plan this trip
                                 </p>
                             </button>
@@ -61,10 +61,10 @@ function RouteComponent() {
                 </div>
             </div>
 
-            <div className="border-t bg-card p-4">
+            <div className="bg-card border-t p-4">
                 <PromptInput placeholder="Where do you want to go?" />
 
-                <p className="mt-2 text-center text-[10px] text-muted-foreground">
+                <p className="text-muted-foreground mt-2 text-center text-[10px]">
                     Let's Traveling may make mistakes. Always verify important
                     travel details.
                 </p>
