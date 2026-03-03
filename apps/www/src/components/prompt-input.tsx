@@ -5,7 +5,9 @@ import { Textarea } from '@/components/ui/textarea'
 type PromptInputProps = React.DetailedHTMLProps<
     React.TextareaHTMLAttributes<HTMLTextAreaElement>,
     HTMLTextAreaElement
->
+> & {
+    onSubmit?: () => void
+}
 
 export default function PromptInput(props: PromptInputProps) {
     return (
@@ -18,8 +20,9 @@ export default function PromptInput(props: PromptInputProps) {
             <Button
                 type="submit"
                 size="icon"
-                disabled={!props.disabled}
+                disabled={props.disabled}
                 className="absolute top-2 right-2 size-8 rounded-lg"
+                onClick={props.onSubmit}
             >
                 <IconSend className="size-4" />
             </Button>

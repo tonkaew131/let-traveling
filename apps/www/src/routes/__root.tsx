@@ -3,6 +3,7 @@ import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools'
 import { TanStackDevtools } from '@tanstack/react-devtools'
 
 import appCss from '../styles.css?url'
+import QueryProvider from '@/components/query-provider'
 
 export const Route = createRootRoute({
     head: () => ({
@@ -46,7 +47,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
                 <HeadContent />
             </head>
             <body className="antialiased">
-                {children}
+                <QueryProvider>{children}</QueryProvider>
                 <TanStackDevtools
                     config={{
                         position: 'bottom-right',

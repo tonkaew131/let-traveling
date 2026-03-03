@@ -1,5 +1,8 @@
 import { IconSparkles } from '@tabler/icons-react'
 import { createFileRoute } from '@tanstack/react-router'
+import { useForm } from '@tanstack/react-form'
+import { useMutation } from '@tanstack/react-query'
+import { createTrip } from './-components/actions'
 import PromptInput from '@/components/prompt-input'
 
 export const Route = createFileRoute('/_app/trips/new/')({
@@ -26,6 +29,22 @@ const quickPrompts = [
 ]
 
 function RouteComponent() {
+    const mutation = useMutation({
+        mutationFn: async (prompt: string) => {
+            return await createTrip({
+                data: {
+                    prompt,
+                },
+            })
+        },
+    })
+    const form = useForm({
+        defaultValues: { prompt: '' },
+        onSubmit: ({ value }) => {
+            mutation.mutate(value.prompt)
+        },
+    })
+
     return (
         <div className="bg-card flex min-h-0 flex-1 flex-col">
             <div className="flex flex-1 flex-col items-center justify-center p-6">
@@ -48,6 +67,10 @@ function RouteComponent() {
                             <button
                                 key={qp.label}
                                 className="bg-background hover:bg-muted rounded-xl border p-3 text-left transition-colors"
+                                onClick={() => {
+                                    form.setFieldValue('prompt', qp.prompt)
+                                    form.handleSubmit()
+                                }}
                             >
                                 <span className="text-foreground text-sm font-medium">
                                     {qp.label}
@@ -62,7 +85,19 @@ function RouteComponent() {
             </div>
 
             <div className="bg-card border-t p-4">
-                <PromptInput placeholder="Where do you want to go?" />
+                <form.Field name="prompt">
+                    {(field) => (
+                        <PromptInput
+                            placeholder="Where do you want to go?"
+                            value={field.state.value}
+                            onChange={(e) => field.handleChange(e.target.value)}
+                            onBlur={field.handleBlur}
+                            onSubmit={() => {
+                                form.handleSubmit()
+                            }}
+                        />
+                    )}
+                </form.Field>
 
                 <p className="text-muted-foreground mt-2 text-center text-[10px]">
                     Let's Traveling may make mistakes. Always verify important

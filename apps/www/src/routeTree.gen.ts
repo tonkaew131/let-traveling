@@ -12,118 +12,161 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as AppRouteRouteImport } from './routes/_app/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as DesignSystemIndexRouteImport } from './routes/design-system/index'
+import { Route as TripsIdIndexRouteImport } from './routes/trips/$id/index'
+import { Route as AppTripsIndexRouteImport } from './routes/_app/trips/index'
 import { Route as AppTripsNewIndexRouteImport } from './routes/_app/trips/new/index'
 
 const AppRouteRoute = AppRouteRouteImport.update({
-    id: '/_app',
-    getParentRoute: () => rootRouteImport,
+  id: '/_app',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
-    id: '/',
-    path: '/',
-    getParentRoute: () => rootRouteImport,
+  id: '/',
+  path: '/',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const DesignSystemIndexRoute = DesignSystemIndexRouteImport.update({
-    id: '/design-system/',
-    path: '/design-system/',
-    getParentRoute: () => rootRouteImport,
+  id: '/design-system/',
+  path: '/design-system/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TripsIdIndexRoute = TripsIdIndexRouteImport.update({
+  id: '/trips/$id/',
+  path: '/trips/$id/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AppTripsIndexRoute = AppTripsIndexRouteImport.update({
+  id: '/trips/',
+  path: '/trips/',
+  getParentRoute: () => AppRouteRoute,
 } as any)
 const AppTripsNewIndexRoute = AppTripsNewIndexRouteImport.update({
-    id: '/trips/new/',
-    path: '/trips/new/',
-    getParentRoute: () => AppRouteRoute,
+  id: '/trips/new/',
+  path: '/trips/new/',
+  getParentRoute: () => AppRouteRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
-    '/': typeof IndexRoute
-    '/design-system/': typeof DesignSystemIndexRoute
-    '/trips/new/': typeof AppTripsNewIndexRoute
+  '/': typeof IndexRoute
+  '/design-system/': typeof DesignSystemIndexRoute
+  '/trips/': typeof AppTripsIndexRoute
+  '/trips/$id/': typeof TripsIdIndexRoute
+  '/trips/new/': typeof AppTripsNewIndexRoute
 }
 export interface FileRoutesByTo {
-    '/': typeof IndexRoute
-    '/design-system': typeof DesignSystemIndexRoute
-    '/trips/new': typeof AppTripsNewIndexRoute
+  '/': typeof IndexRoute
+  '/design-system': typeof DesignSystemIndexRoute
+  '/trips': typeof AppTripsIndexRoute
+  '/trips/$id': typeof TripsIdIndexRoute
+  '/trips/new': typeof AppTripsNewIndexRoute
 }
 export interface FileRoutesById {
-    __root__: typeof rootRouteImport
-    '/': typeof IndexRoute
-    '/_app': typeof AppRouteRouteWithChildren
-    '/design-system/': typeof DesignSystemIndexRoute
-    '/_app/trips/new/': typeof AppTripsNewIndexRoute
+  __root__: typeof rootRouteImport
+  '/': typeof IndexRoute
+  '/_app': typeof AppRouteRouteWithChildren
+  '/design-system/': typeof DesignSystemIndexRoute
+  '/_app/trips/': typeof AppTripsIndexRoute
+  '/trips/$id/': typeof TripsIdIndexRoute
+  '/_app/trips/new/': typeof AppTripsNewIndexRoute
 }
 export interface FileRouteTypes {
-    fileRoutesByFullPath: FileRoutesByFullPath
-    fullPaths: '/' | '/design-system/' | '/trips/new/'
-    fileRoutesByTo: FileRoutesByTo
-    to: '/' | '/design-system' | '/trips/new'
-    id: '__root__' | '/' | '/_app' | '/design-system/' | '/_app/trips/new/'
-    fileRoutesById: FileRoutesById
+  fileRoutesByFullPath: FileRoutesByFullPath
+  fullPaths: '/' | '/design-system/' | '/trips/' | '/trips/$id/' | '/trips/new/'
+  fileRoutesByTo: FileRoutesByTo
+  to: '/' | '/design-system' | '/trips' | '/trips/$id' | '/trips/new'
+  id:
+    | '__root__'
+    | '/'
+    | '/_app'
+    | '/design-system/'
+    | '/_app/trips/'
+    | '/trips/$id/'
+    | '/_app/trips/new/'
+  fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-    IndexRoute: typeof IndexRoute
-    AppRouteRoute: typeof AppRouteRouteWithChildren
-    DesignSystemIndexRoute: typeof DesignSystemIndexRoute
+  IndexRoute: typeof IndexRoute
+  AppRouteRoute: typeof AppRouteRouteWithChildren
+  DesignSystemIndexRoute: typeof DesignSystemIndexRoute
+  TripsIdIndexRoute: typeof TripsIdIndexRoute
 }
 
 declare module '@tanstack/react-router' {
-    interface FileRoutesByPath {
-        '/_app': {
-            id: '/_app'
-            path: ''
-            fullPath: '/'
-            preLoaderRoute: typeof AppRouteRouteImport
-            parentRoute: typeof rootRouteImport
-        }
-        '/': {
-            id: '/'
-            path: '/'
-            fullPath: '/'
-            preLoaderRoute: typeof IndexRouteImport
-            parentRoute: typeof rootRouteImport
-        }
-        '/design-system/': {
-            id: '/design-system/'
-            path: '/design-system'
-            fullPath: '/design-system/'
-            preLoaderRoute: typeof DesignSystemIndexRouteImport
-            parentRoute: typeof rootRouteImport
-        }
-        '/_app/trips/new/': {
-            id: '/_app/trips/new/'
-            path: '/trips/new'
-            fullPath: '/trips/new/'
-            preLoaderRoute: typeof AppTripsNewIndexRouteImport
-            parentRoute: typeof AppRouteRoute
-        }
+  interface FileRoutesByPath {
+    '/_app': {
+      id: '/_app'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AppRouteRouteImport
+      parentRoute: typeof rootRouteImport
     }
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/design-system/': {
+      id: '/design-system/'
+      path: '/design-system'
+      fullPath: '/design-system/'
+      preLoaderRoute: typeof DesignSystemIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/trips/$id/': {
+      id: '/trips/$id/'
+      path: '/trips/$id'
+      fullPath: '/trips/$id/'
+      preLoaderRoute: typeof TripsIdIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_app/trips/': {
+      id: '/_app/trips/'
+      path: '/trips'
+      fullPath: '/trips/'
+      preLoaderRoute: typeof AppTripsIndexRouteImport
+      parentRoute: typeof AppRouteRoute
+    }
+    '/_app/trips/new/': {
+      id: '/_app/trips/new/'
+      path: '/trips/new'
+      fullPath: '/trips/new/'
+      preLoaderRoute: typeof AppTripsNewIndexRouteImport
+      parentRoute: typeof AppRouteRoute
+    }
+  }
 }
 
 interface AppRouteRouteChildren {
-    AppTripsNewIndexRoute: typeof AppTripsNewIndexRoute
+  AppTripsIndexRoute: typeof AppTripsIndexRoute
+  AppTripsNewIndexRoute: typeof AppTripsNewIndexRoute
 }
 
 const AppRouteRouteChildren: AppRouteRouteChildren = {
-    AppTripsNewIndexRoute: AppTripsNewIndexRoute,
+  AppTripsIndexRoute: AppTripsIndexRoute,
+  AppTripsNewIndexRoute: AppTripsNewIndexRoute,
 }
 
 const AppRouteRouteWithChildren = AppRouteRoute._addFileChildren(
-    AppRouteRouteChildren,
+  AppRouteRouteChildren,
 )
 
 const rootRouteChildren: RootRouteChildren = {
-    IndexRoute: IndexRoute,
-    AppRouteRoute: AppRouteRouteWithChildren,
-    DesignSystemIndexRoute: DesignSystemIndexRoute,
+  IndexRoute: IndexRoute,
+  AppRouteRoute: AppRouteRouteWithChildren,
+  DesignSystemIndexRoute: DesignSystemIndexRoute,
+  TripsIdIndexRoute: TripsIdIndexRoute,
 }
 export const routeTree = rootRouteImport
-    ._addFileChildren(rootRouteChildren)
-    ._addFileTypes<FileRouteTypes>()
+  ._addFileChildren(rootRouteChildren)
+  ._addFileTypes<FileRouteTypes>()
 
 import type { getRouter } from './router.tsx'
 import type { createStart } from '@tanstack/react-start'
 declare module '@tanstack/react-start' {
-    interface Register {
-        ssr: true
-        router: Awaited<ReturnType<typeof getRouter>>
-    }
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+  }
 }
