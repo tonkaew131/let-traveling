@@ -1,4 +1,4 @@
-import { IconSend } from '@tabler/icons-react'
+import { IconLoader, IconSend } from '@tabler/icons-react'
 import { Button } from '@/components/ui/button'
 import { Textarea } from '@/components/ui/textarea'
 
@@ -7,6 +7,7 @@ type PromptInputProps = React.DetailedHTMLProps<
     HTMLTextAreaElement
 > & {
     onSubmit?: () => void
+    isLoading?: boolean
 }
 
 export default function PromptInput(props: PromptInputProps) {
@@ -20,11 +21,15 @@ export default function PromptInput(props: PromptInputProps) {
             <Button
                 type="submit"
                 size="icon"
-                disabled={props.disabled}
+                disabled={props.disabled || props.isLoading}
                 className="absolute top-2 right-2 size-8 rounded-lg"
                 onClick={props.onSubmit}
             >
-                <IconSend className="size-4" />
+                {props.isLoading ? (
+                    <IconLoader className="size-4 animate-spin" />
+                ) : (
+                    <IconSend className="size-4" />
+                )}
             </Button>
         </form>
     )

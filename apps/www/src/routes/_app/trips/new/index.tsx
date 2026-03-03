@@ -101,6 +101,8 @@ function RouteComponent() {
                             value={field.state.value}
                             onChange={(e) => field.handleChange(e.target.value)}
                             onBlur={field.handleBlur}
+                            disabled={mutation.isPending}
+                            isLoading={mutation.isPending}
                             onSubmit={() => {
                                 form.handleSubmit()
                             }}
