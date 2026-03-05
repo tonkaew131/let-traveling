@@ -4,6 +4,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Button } from '@/components/ui/button'
 import PromptInput from '@/components/prompt-input'
+import WeatherCard from '@/components/weather-card'
 
 export const Route = createFileRoute('/design-system/')({
     component: RouteComponent,
@@ -39,6 +40,20 @@ function RouteComponent() {
                 <section className="grid gap-2">
                     <Label>Prompt Input</Label>
                     <PromptInput placeholder="Where do you want to go?" />
+                </section>
+
+                <section className="grid gap-2">
+                    <Label>Weather Card</Label>
+                    <div className="bg-background flex flex-wrap items-center rounded-xl border p-2">
+                        <WeatherCard
+                            date="2026-04-15"
+                            icon="cloud-sun"
+                            condition="Partly Cloudy"
+                            highTemp={88}
+                            lowTemp={75}
+                            humidity={69}
+                        />
+                    </div>
                 </section>
             </main>
         </div>
