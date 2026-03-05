@@ -83,6 +83,7 @@ function RouteComponent() {
                                     form.setFieldValue('prompt', qp.prompt)
                                     form.handleSubmit()
                                 }}
+                                disabled={mutation.isPending}
                             >
                                 <span className="text-foreground text-sm font-medium">
                                     {qp.label}
