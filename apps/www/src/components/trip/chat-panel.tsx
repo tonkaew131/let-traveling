@@ -107,7 +107,7 @@ export function ChatPanel({ messages, status, onSendMessage }: ChatPanelProps) {
     const hasMessages = messages.length > 0
 
     return (
-        <div className="bg-card flex h-full flex-col">
+        <div className="bg-card flex h-dvh min-h-0 flex-col">
             {/* Header */}
             <div className="border-b">
                 <Link to="/">
@@ -130,7 +130,7 @@ export function ChatPanel({ messages, status, onSendMessage }: ChatPanelProps) {
             </div>
 
             {/* Messages */}
-            <ScrollArea ref={scrollRef} className="flex-1">
+            <ScrollArea ref={scrollRef} className="min-h-0 flex-1">
                 {!hasMessages ? (
                     <div className="flex h-full flex-col items-center justify-center p-6">
                         <div className="flex flex-col items-center gap-4 text-center">
