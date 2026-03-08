@@ -12,6 +12,9 @@ import {
     User,
 } from 'lucide-react'
 import { Link } from '@tanstack/react-router'
+import ReactMarkdown from 'react-markdown'
+import remarkBreaks from 'remark-breaks'
+import remarkGfm from 'remark-gfm'
 import type { UIMessage } from 'ai'
 import { Button } from '@/components/ui/button'
 import { ScrollArea } from '@/components/ui/scroll-area'
@@ -22,7 +25,9 @@ interface ChatPanelProps {
     onSendMessage: (text: string) => void
 }
 
-const toolLabels: Record<string, { label: string; icon: React.ReactNode }> = {
+const toolLabels: Partial<
+    Record<string, { label: string; icon: React.ReactNode }>
+> = {
     searchFlights: {
         label: 'Searching flights...',
         icon: <Plane className="size-3.5" />,
@@ -69,6 +74,68 @@ function getTextFromMessage(message: UIMessage): string {
         .filter((p): p is { type: 'text'; text: string } => p.type === 'text')
         .map((p) => p.text)
         .join('')
+}
+
+function MarkdownMessage({ markdown }: { markdown: string }) {
+    return (
+        <ReactMarkdown
+            remarkPlugins={[remarkGfm, remarkBreaks]}
+            components={{
+                a: ({ children, ...props }) => (
+                    <a
+                        {...props}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="underline underline-offset-2"
+                    >
+                        {children}
+                    </a>
+                ),
+                code: ({ children, className, ...props }) => {
+                    const isInline = !className
+                    if (isInline) {
+                        return (
+                            <code
+                                {...props}
+                                className="bg-background/40 rounded px-1 py-0.5 font-mono text-[0.85em]"
+                            >
+                                {children}
+                            </code>
+                        )
+                    }
+
+                    return (
+                        <pre className="bg-background/40 overflow-x-auto rounded-lg p-3">
+                            <code
+                                {...props}
+                                className="font-mono text-[0.85em]"
+                            >
+                                {children}
+                            </code>
+                        </pre>
+                    )
+                },
+                ul: ({ children, ...props }) => (
+                    <ul {...props} className="list-disc space-y-1 pl-5">
+                        {children}
+                    </ul>
+                ),
+                ol: ({ children, ...props }) => (
+                    <ol {...props} className="list-decimal space-y-1 pl-5">
+                        {children}
+                    </ol>
+                ),
+                p: ({ children, ...props }) => (
+                    <p {...props} className="whitespace-pre-wrap">
+                        {children}
+                    </p>
+                ),
+                hr: ({ ...props }) => <hr {...props} className="my-4" />,
+            }}
+        >
+            {markdown}
+        </ReactMarkdown>
+    )
 }
 
 export function ChatPanel({ messages, status, onSendMessage }: ChatPanelProps) {
@@ -198,9 +265,9 @@ export function ChatPanel({ messages, status, onSendMessage }: ChatPanelProps) {
                                                         : 'bg-muted text-foreground rounded-bl-md'
                                                 }`}
                                             >
-                                                <div className="whitespace-pre-wrap">
-                                                    {text}
-                                                </div>
+                                                <MarkdownMessage
+                                                    markdown={text}
+                                                />
                                             </div>
                                         )}
                                         {/* Tool indicators */}
