@@ -1,5 +1,3 @@
-'use client'
-
 import { useEffect, useRef, useState } from 'react'
 import {
     Bot,
@@ -297,8 +295,8 @@ export function ChatPanel({ messages, status, onSendMessage }: ChatPanelProps) {
                     </Button>
                 </form>
                 <p className="text-muted-foreground mt-2 text-center text-[10px]">
-                    Voyager may make mistakes. Always verify important travel
-                    details.
+                    Let's Traveling may make mistakes. Always verify important
+                    travel details.
                 </p>
             </div>
         </div>
