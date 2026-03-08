@@ -195,7 +195,7 @@ const tools = {
     }),
 }
 
-const systemPrompt = `You are Voyager, a premium AI travel planner. You create comprehensive, personalized travel plans.
+const systemPrompt = `You are Let's Traveling, a premium AI travel planner. You create comprehensive, personalized travel plans.
 
 When a user asks you to plan a trip, follow these steps IN ORDER:
 
