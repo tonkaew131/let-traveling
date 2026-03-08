@@ -21,7 +21,10 @@ export const createTrip = createServerFn({ method: 'POST' })
             await tx.insert(schema.tripMessages).values({
                 tripId: _trip.id,
                 role: 'user',
-                content: data.prompt,
+                content: {
+                    role: 'user',
+                    parts: [{ type: 'text', text: data.prompt }],
+                },
             })
 
             return _trip

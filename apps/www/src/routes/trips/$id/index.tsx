@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from 'react'
 import { useChat } from '@ai-sdk/react'
 import { DefaultChatTransport } from 'ai'
 import { IconMap, IconMessage } from '@tabler/icons-react'
-import { getTripMessages } from './-components/actions'
+import { getTripMessages, saveTripMessages } from './-components/actions'
 import { exportTripPDF } from '@/lib/export-pdf'
 import { ChatPanel } from '@/components/trip/chat-panel'
 import { TripDisplay } from '@/components/trip/trip-display'
@@ -12,11 +12,36 @@ export const Route = createFileRoute('/trips/$id/')({
     loader: async ({ params }) => {
         const rows = await getTripMessages({ data: { tripId: params.id } })
 
-        const initialMessages = rows.map((m) => ({
-            id: m.id,
-            role: m.role === 'function' ? 'assistant' : m.role,
-            parts: [{ type: 'text', text: m.content }],
-        }))
+        const initialMessages = rows.map((m) => {
+            const content = m.content
+            if (
+                content &&
+                typeof content === 'object' &&
+                Array.isArray(content.parts)
+            ) {
+                return {
+                    ...(typeof content.id === 'string'
+                        ? { id: content.id }
+                        : { id: m.id }),
+                    role: content.role === 'user' ? 'user' : 'assistant',
+                    parts: content.parts,
+                }
+            }
+
+            return {
+                id: m.id,
+                role: m.role === 'function' ? 'assistant' : m.role,
+                parts: [
+                    {
+                        type: 'text',
+                        text:
+                            typeof content === 'string'
+                                ? content
+                                : JSON.stringify(content),
+                    },
+                ],
+            }
+        })
 
         return { initialMessages }
     },
@@ -34,6 +59,32 @@ function RouteComponent() {
         messages: initialMessages as any,
         transport: new DefaultChatTransport({ api: '/api/chat' }),
     })
+
+    const lastPersistedRef = useRef<string>('')
+    useEffect(() => {
+        const key = JSON.stringify(
+            messages.map((m: any) => ({
+                id: m.id,
+                role: m.role,
+                parts: m.parts,
+            })),
+        )
+        if (!messages.length) return
+        if (key === lastPersistedRef.current) return
+
+        lastPersistedRef.current = key
+
+        const t = setTimeout(() => {
+            saveTripMessages({
+                data: {
+                    tripId,
+                    messages,
+                },
+            }).catch(() => {})
+        }, 300)
+
+        return () => clearTimeout(t)
+    }, [messages, tripId])
 
     useEffect(() => {
         if (didAutoContinueRef.current === tripId) return

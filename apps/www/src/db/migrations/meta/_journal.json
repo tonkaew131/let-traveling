@@ -29,6 +29,13 @@
             "when": 1772546752541,
             "tag": "0003_young_jackpot",
             "breakpoints": true
+        },
+        {
+            "idx": 4,
+            "version": "7",
+            "when": 1772987810374,
+            "tag": "0004_flimsy_jamie_braddock",
+            "breakpoints": true
         }
     ]
 }

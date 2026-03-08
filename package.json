@@ -8,7 +8,7 @@
     "dev": "dotenv -- bun run --filter \"*\" --elide-lines=0 dev",
     "format": "bun run --filter \"*\" format",
     "db:generate": "dotenv -- bun run --filter @let-traveling/www db:generate",
-    "db:migrate": "dotenv -- bun run --filter @let-traveling/www db:migrate",
+    "db:migrate": "dotenv -- bun run --filter @let-traveling/www --elide-lines=0 db:migrate",
     "db:studio": "dotenv -- bun run --filter @let-traveling/www db:studio"
   },
   "dependencies": {
