@@ -21,10 +21,9 @@ export const generateTripTitle = async (tripId: string, prompt: string) => {
 await boss.createQueue(queue)
 await boss.work(queue, async ([job]) => {
     const { tripId, prompt } = job.data as GenerateTripTitlePayload
-    console.log(`received job ${job.id} with data ${JSON.stringify(job.data)}`)
     const title = await generateText({
         model: openrouter('google/gemini-2.5-flash-lite'),
-        prompt: `Extract a concise title for a trip based on the following user prompt. The title should be no more than 5 words and should capture the essence of the trip.\n\nUser Prompt: ${prompt}\n\nTitle:`,
+        prompt: `Extract a concise title for a trip based on the following user prompt. The title should be no more than 5 words and should capture the essence of the trip. The language should match the user's language.\n\nUser Prompt: ${prompt}\n\nTitle:`,
     })
 
     await db
