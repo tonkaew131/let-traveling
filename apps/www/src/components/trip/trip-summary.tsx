@@ -27,7 +27,7 @@ export function TripSummary({
     const days = Math.ceil((end.getTime() - start.getTime()) / 86400000) + 1
 
     return (
-        <Card className="bg-primary/5 overflow-hidden border-0">
+        <Card className="bg-primary/5 overflow-hidden border-0 py-0">
             <CardContent className="flex flex-col gap-4 py-5">
                 <div>
                     <h2 className="text-foreground text-xl font-bold text-balance">

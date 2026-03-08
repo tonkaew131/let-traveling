@@ -94,7 +94,7 @@ export function DayPlanCard({
             className={`cursor-pointer transition-all duration-200 ${isActive ? 'border-primary ring-primary/20 shadow-md ring-1' : 'hover:border-primary/30'}`}
             onClick={onSelect}
         >
-            <CardHeader className="pb-3">
+            <CardHeader className="">
                 <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
                         <div className="bg-primary text-primary-foreground flex size-10 items-center justify-center rounded-lg text-sm font-bold">
