@@ -12,7 +12,7 @@ export const searchFlights = createServerFn({ method: 'GET' }).handler(
                 },
             ],
             passengers: [{ type: 'adult' }, { type: 'adult' }, { age: 1 }],
-            cabin_class: 'economy',
+            // cabin_class: 'economy',
         })
 
         return results

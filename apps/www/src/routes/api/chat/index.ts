@@ -2,6 +2,7 @@ import { createFileRoute } from '@tanstack/react-router'
 import { convertToModelMessages, stepCountIs, streamText, tool } from 'ai'
 import { openrouter } from '@openrouter/ai-sdk-provider'
 import * as z from 'zod'
+import { google } from '@ai-sdk/google'
 import { getWeatherTool } from './-components/tools/get-weather'
 
 export const maxDuration = 60
@@ -193,6 +194,8 @@ const tools = {
             return data
         },
     }),
+
+    googleSearch: google.tools.googleSearch({}),
 }
 
 const currentDate = new Date()
