@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
 import { useState } from 'react'
-import { IconLoader } from '@tabler/icons-react'
+import { IconHotelService, IconLoader, IconPlane } from '@tabler/icons-react'
 import { searchFlights, searchHotels } from './actions'
 import { Card } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
@@ -27,19 +27,29 @@ export default function DuffelApiSection() {
 
     return (
         <Card className="bg-background grid grid-cols-2 gap-4 p-4">
-            <Button onClick={() => isEnabledFlights((prev) => !prev)}>
-                {enabledFlights ? 'Disable' : 'Enable'} Flight Search
+            <Button
+                onClick={() => isEnabledFlights((prev) => !prev)}
+                disabled={enabledFlights}
+                size="lg"
+            >
+                <IconPlane />
+                Enable Flight Search
             </Button>
 
-            <Button onClick={() => isEnabledHotels((prev) => !prev)}>
-                {enabledHotels ? 'Disable' : 'Enable'} Hotel Search
+            <Button
+                onClick={() => isEnabledHotels((prev) => !prev)}
+                disabled={enabledHotels}
+                size="lg"
+            >
+                <IconHotelService />
+                Enable Hotel Search
             </Button>
 
             {isLoadingFlight ? (
                 <IconLoader className="size-4 animate-spin" />
             ) : (
                 <pre>
-                    {flights
+                    {typeof flights !== 'undefined'
                         ? JSON.stringify(JSON.parse(flights), null, 2)
                         : 'No data...'}
                 </pre>
@@ -49,7 +59,7 @@ export default function DuffelApiSection() {
                 <IconLoader className="size-4 animate-spin" />
             ) : (
                 <pre>
-                    {hotels
+                    {typeof hotels !== 'undefined'
                         ? JSON.stringify(JSON.parse(hotels), null, 2)
                         : 'No data...'}
                 </pre>

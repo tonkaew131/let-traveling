@@ -23,20 +23,27 @@ export const searchFlights = createServerFn({ method: 'GET' }).handler(
 
 export const searchHotels = createServerFn({ method: 'GET' }).handler(
     async () => {
-        const results = await duffel.stays.search({
-            rooms: 1,
-            location: {
-                radius: 2,
-                geographic_coordinates: {
-                    longitude: -0.1416,
-                    latitude: 51.5071,
+        try {
+            const results = await duffel.stays.search({
+                rooms: 1,
+                location: {
+                    radius: 2, // in kilometers
+                    geographic_coordinates: {
+                        // latitude: 35.71576258642976,
+                        // longitude: 139.72962596910423,
+                        latitude: -24.38,
+                        longitude: -128.32,
+                    },
                 },
-            },
-            check_out_date: '2026-04-16',
-            check_in_date: '2026-04-12',
-            guests: [{ type: 'adult' }, { type: 'adult' }],
-        })
+                check_in_date: '2026-04-12',
+                check_out_date: '2026-04-16',
+                guests: [{ type: 'adult' }, { type: 'adult' }],
+            })
 
-        return JSON.stringify(results)
+            return JSON.stringify(results)
+        } catch (error) {
+            console.error('Error searching hotels:', error)
+            throw error
+        }
     },
 )
