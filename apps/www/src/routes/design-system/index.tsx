@@ -9,6 +9,9 @@ import WeatherCard from '@/components/weather-card'
 
 export const Route = createFileRoute('/design-system/')({
     component: RouteComponent,
+    head: () => ({
+        meta: [{ title: 'Design System | Let Traveling' }],
+    }),
 })
 
 function RouteComponent() {

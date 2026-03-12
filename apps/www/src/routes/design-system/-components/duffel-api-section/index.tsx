@@ -24,7 +24,11 @@ export default function DuffelApiSection() {
             {isLoading ? (
                 <IconLoader className="size-4 animate-spin" />
             ) : (
-                <pre>{data ? JSON.stringify(data, null, 2) : 'No data...'}</pre>
+                <pre>
+                    {data
+                        ? JSON.stringify(JSON.parse(data), null, 2)
+                        : 'No data...'}
+                </pre>
             )}
         </Card>
     )

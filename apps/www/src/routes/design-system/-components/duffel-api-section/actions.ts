@@ -9,12 +9,14 @@ export const searchFlights = createServerFn({ method: 'GET' }).handler(
                     origin: 'BKK',
                     destination: 'HND',
                     departure_date: '2026-03-12',
+                    arrival_time: null,
+                    departure_time: null,
                 },
             ],
             passengers: [{ type: 'adult' }, { type: 'adult' }, { age: 1 }],
             // cabin_class: 'economy',
         })
 
-        return results
+        return JSON.stringify(results)
     },
 )
