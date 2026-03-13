@@ -18,186 +18,186 @@ import { Route as AppTripsIndexRouteImport } from './routes/_app/trips/index'
 import { Route as AppTripsNewIndexRouteImport } from './routes/_app/trips/new/index'
 
 const AppRouteRoute = AppRouteRouteImport.update({
-    id: '/_app',
-    getParentRoute: () => rootRouteImport,
+  id: '/_app',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
-    id: '/',
-    path: '/',
-    getParentRoute: () => rootRouteImport,
+  id: '/',
+  path: '/',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const DesignSystemIndexRoute = DesignSystemIndexRouteImport.update({
-    id: '/design-system/',
-    path: '/design-system/',
-    getParentRoute: () => rootRouteImport,
+  id: '/design-system/',
+  path: '/design-system/',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const TripsIdIndexRoute = TripsIdIndexRouteImport.update({
-    id: '/trips/$id/',
-    path: '/trips/$id/',
-    getParentRoute: () => rootRouteImport,
+  id: '/trips/$id/',
+  path: '/trips/$id/',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const ApiChatIndexRoute = ApiChatIndexRouteImport.update({
-    id: '/api/chat/',
-    path: '/api/chat/',
-    getParentRoute: () => rootRouteImport,
+  id: '/api/chat/',
+  path: '/api/chat/',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const AppTripsIndexRoute = AppTripsIndexRouteImport.update({
-    id: '/trips/',
-    path: '/trips/',
-    getParentRoute: () => AppRouteRoute,
+  id: '/trips/',
+  path: '/trips/',
+  getParentRoute: () => AppRouteRoute,
 } as any)
 const AppTripsNewIndexRoute = AppTripsNewIndexRouteImport.update({
-    id: '/trips/new/',
-    path: '/trips/new/',
-    getParentRoute: () => AppRouteRoute,
+  id: '/trips/new/',
+  path: '/trips/new/',
+  getParentRoute: () => AppRouteRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
-    '/': typeof IndexRoute
-    '/design-system/': typeof DesignSystemIndexRoute
-    '/trips/': typeof AppTripsIndexRoute
-    '/api/chat/': typeof ApiChatIndexRoute
-    '/trips/$id/': typeof TripsIdIndexRoute
-    '/trips/new/': typeof AppTripsNewIndexRoute
+  '/': typeof IndexRoute
+  '/design-system/': typeof DesignSystemIndexRoute
+  '/trips/': typeof AppTripsIndexRoute
+  '/api/chat/': typeof ApiChatIndexRoute
+  '/trips/$id/': typeof TripsIdIndexRoute
+  '/trips/new/': typeof AppTripsNewIndexRoute
 }
 export interface FileRoutesByTo {
-    '/': typeof IndexRoute
-    '/design-system': typeof DesignSystemIndexRoute
-    '/trips': typeof AppTripsIndexRoute
-    '/api/chat': typeof ApiChatIndexRoute
-    '/trips/$id': typeof TripsIdIndexRoute
-    '/trips/new': typeof AppTripsNewIndexRoute
+  '/': typeof IndexRoute
+  '/design-system': typeof DesignSystemIndexRoute
+  '/trips': typeof AppTripsIndexRoute
+  '/api/chat': typeof ApiChatIndexRoute
+  '/trips/$id': typeof TripsIdIndexRoute
+  '/trips/new': typeof AppTripsNewIndexRoute
 }
 export interface FileRoutesById {
-    __root__: typeof rootRouteImport
-    '/': typeof IndexRoute
-    '/_app': typeof AppRouteRouteWithChildren
-    '/design-system/': typeof DesignSystemIndexRoute
-    '/_app/trips/': typeof AppTripsIndexRoute
-    '/api/chat/': typeof ApiChatIndexRoute
-    '/trips/$id/': typeof TripsIdIndexRoute
-    '/_app/trips/new/': typeof AppTripsNewIndexRoute
+  __root__: typeof rootRouteImport
+  '/': typeof IndexRoute
+  '/_app': typeof AppRouteRouteWithChildren
+  '/design-system/': typeof DesignSystemIndexRoute
+  '/_app/trips/': typeof AppTripsIndexRoute
+  '/api/chat/': typeof ApiChatIndexRoute
+  '/trips/$id/': typeof TripsIdIndexRoute
+  '/_app/trips/new/': typeof AppTripsNewIndexRoute
 }
 export interface FileRouteTypes {
-    fileRoutesByFullPath: FileRoutesByFullPath
-    fullPaths:
-        | '/'
-        | '/design-system/'
-        | '/trips/'
-        | '/api/chat/'
-        | '/trips/$id/'
-        | '/trips/new/'
-    fileRoutesByTo: FileRoutesByTo
-    to:
-        | '/'
-        | '/design-system'
-        | '/trips'
-        | '/api/chat'
-        | '/trips/$id'
-        | '/trips/new'
-    id:
-        | '__root__'
-        | '/'
-        | '/_app'
-        | '/design-system/'
-        | '/_app/trips/'
-        | '/api/chat/'
-        | '/trips/$id/'
-        | '/_app/trips/new/'
-    fileRoutesById: FileRoutesById
+  fileRoutesByFullPath: FileRoutesByFullPath
+  fullPaths:
+    | '/'
+    | '/design-system/'
+    | '/trips/'
+    | '/api/chat/'
+    | '/trips/$id/'
+    | '/trips/new/'
+  fileRoutesByTo: FileRoutesByTo
+  to:
+    | '/'
+    | '/design-system'
+    | '/trips'
+    | '/api/chat'
+    | '/trips/$id'
+    | '/trips/new'
+  id:
+    | '__root__'
+    | '/'
+    | '/_app'
+    | '/design-system/'
+    | '/_app/trips/'
+    | '/api/chat/'
+    | '/trips/$id/'
+    | '/_app/trips/new/'
+  fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-    IndexRoute: typeof IndexRoute
-    AppRouteRoute: typeof AppRouteRouteWithChildren
-    DesignSystemIndexRoute: typeof DesignSystemIndexRoute
-    ApiChatIndexRoute: typeof ApiChatIndexRoute
-    TripsIdIndexRoute: typeof TripsIdIndexRoute
+  IndexRoute: typeof IndexRoute
+  AppRouteRoute: typeof AppRouteRouteWithChildren
+  DesignSystemIndexRoute: typeof DesignSystemIndexRoute
+  ApiChatIndexRoute: typeof ApiChatIndexRoute
+  TripsIdIndexRoute: typeof TripsIdIndexRoute
 }
 
 declare module '@tanstack/react-router' {
-    interface FileRoutesByPath {
-        '/_app': {
-            id: '/_app'
-            path: ''
-            fullPath: '/'
-            preLoaderRoute: typeof AppRouteRouteImport
-            parentRoute: typeof rootRouteImport
-        }
-        '/': {
-            id: '/'
-            path: '/'
-            fullPath: '/'
-            preLoaderRoute: typeof IndexRouteImport
-            parentRoute: typeof rootRouteImport
-        }
-        '/design-system/': {
-            id: '/design-system/'
-            path: '/design-system'
-            fullPath: '/design-system/'
-            preLoaderRoute: typeof DesignSystemIndexRouteImport
-            parentRoute: typeof rootRouteImport
-        }
-        '/trips/$id/': {
-            id: '/trips/$id/'
-            path: '/trips/$id'
-            fullPath: '/trips/$id/'
-            preLoaderRoute: typeof TripsIdIndexRouteImport
-            parentRoute: typeof rootRouteImport
-        }
-        '/api/chat/': {
-            id: '/api/chat/'
-            path: '/api/chat'
-            fullPath: '/api/chat/'
-            preLoaderRoute: typeof ApiChatIndexRouteImport
-            parentRoute: typeof rootRouteImport
-        }
-        '/_app/trips/': {
-            id: '/_app/trips/'
-            path: '/trips'
-            fullPath: '/trips/'
-            preLoaderRoute: typeof AppTripsIndexRouteImport
-            parentRoute: typeof AppRouteRoute
-        }
-        '/_app/trips/new/': {
-            id: '/_app/trips/new/'
-            path: '/trips/new'
-            fullPath: '/trips/new/'
-            preLoaderRoute: typeof AppTripsNewIndexRouteImport
-            parentRoute: typeof AppRouteRoute
-        }
+  interface FileRoutesByPath {
+    '/_app': {
+      id: '/_app'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AppRouteRouteImport
+      parentRoute: typeof rootRouteImport
     }
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/design-system/': {
+      id: '/design-system/'
+      path: '/design-system'
+      fullPath: '/design-system/'
+      preLoaderRoute: typeof DesignSystemIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/trips/$id/': {
+      id: '/trips/$id/'
+      path: '/trips/$id'
+      fullPath: '/trips/$id/'
+      preLoaderRoute: typeof TripsIdIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/chat/': {
+      id: '/api/chat/'
+      path: '/api/chat'
+      fullPath: '/api/chat/'
+      preLoaderRoute: typeof ApiChatIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_app/trips/': {
+      id: '/_app/trips/'
+      path: '/trips'
+      fullPath: '/trips/'
+      preLoaderRoute: typeof AppTripsIndexRouteImport
+      parentRoute: typeof AppRouteRoute
+    }
+    '/_app/trips/new/': {
+      id: '/_app/trips/new/'
+      path: '/trips/new'
+      fullPath: '/trips/new/'
+      preLoaderRoute: typeof AppTripsNewIndexRouteImport
+      parentRoute: typeof AppRouteRoute
+    }
+  }
 }
 
 interface AppRouteRouteChildren {
-    AppTripsIndexRoute: typeof AppTripsIndexRoute
-    AppTripsNewIndexRoute: typeof AppTripsNewIndexRoute
+  AppTripsIndexRoute: typeof AppTripsIndexRoute
+  AppTripsNewIndexRoute: typeof AppTripsNewIndexRoute
 }
 
 const AppRouteRouteChildren: AppRouteRouteChildren = {
-    AppTripsIndexRoute: AppTripsIndexRoute,
-    AppTripsNewIndexRoute: AppTripsNewIndexRoute,
+  AppTripsIndexRoute: AppTripsIndexRoute,
+  AppTripsNewIndexRoute: AppTripsNewIndexRoute,
 }
 
 const AppRouteRouteWithChildren = AppRouteRoute._addFileChildren(
-    AppRouteRouteChildren,
+  AppRouteRouteChildren,
 )
 
 const rootRouteChildren: RootRouteChildren = {
-    IndexRoute: IndexRoute,
-    AppRouteRoute: AppRouteRouteWithChildren,
-    DesignSystemIndexRoute: DesignSystemIndexRoute,
-    ApiChatIndexRoute: ApiChatIndexRoute,
-    TripsIdIndexRoute: TripsIdIndexRoute,
+  IndexRoute: IndexRoute,
+  AppRouteRoute: AppRouteRouteWithChildren,
+  DesignSystemIndexRoute: DesignSystemIndexRoute,
+  ApiChatIndexRoute: ApiChatIndexRoute,
+  TripsIdIndexRoute: TripsIdIndexRoute,
 }
 export const routeTree = rootRouteImport
-    ._addFileChildren(rootRouteChildren)
-    ._addFileTypes<FileRouteTypes>()
+  ._addFileChildren(rootRouteChildren)
+  ._addFileTypes<FileRouteTypes>()
 
 import type { getRouter } from './router.tsx'
 import type { createStart } from '@tanstack/react-start'
 declare module '@tanstack/react-start' {
-    interface Register {
-        ssr: true
-        router: Awaited<ReturnType<typeof getRouter>>
-    }
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+  }
 }
