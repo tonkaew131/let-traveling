@@ -2,7 +2,7 @@ import * as z from 'zod'
 import { tool } from 'ai'
 import { parse, toSeconds } from 'iso8601-duration'
 import { and, eq } from 'drizzle-orm'
-import { duffel } from '@/lib/duffel'
+import { duffel, isDuffelTestMode } from '@/lib/duffel'
 import { redis } from '@/ioredis'
 import { db, schema } from '@/db'
 
@@ -44,6 +44,10 @@ const searchICAOAirline = async (
         logoSymbolUrl: string | null
     },
 ) => {
+    if (isDuffelTestMode) {
+        return query.iata === 'AA' ? 'AAL' : null
+    }
+
     const airlines = await db
         .select()
         .from(schema.airlines)
@@ -138,7 +142,7 @@ export const searchFlights = tool({
             passengers: Array.from({ length: travelers }, () => ({
                 type: 'adult',
             })),
-            max_connections: 0,
+            // max_connections: 0,
         })
 
         await redis.set(cacheKey, JSON.stringify(results), 'EX', 60 * 60) // Cache for 1 hour
