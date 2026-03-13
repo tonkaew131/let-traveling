@@ -1,4 +1,5 @@
 import { Clock, Plane } from 'lucide-react'
+import { IconExternalLink } from '@tabler/icons-react'
 import type { FlightData } from '@/routes/api/chat/-components/tools/search-flights'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
@@ -21,9 +22,25 @@ function FlightSegment({
 
     return (
         <div className="flex flex-col gap-3">
-            <span className="text-muted-foreground text-xs font-medium tracking-wider uppercase">
-                {label}
-            </span>
+            <div className="flex items-center gap-2">
+                {flight.airlineLogoUrl && (
+                    <img
+                        src={flight.airlineLogoUrl}
+                        alt={flight.airline}
+                        className="size-4"
+                    />
+                )}
+                <span className="text-muted-foreground text-xs font-medium tracking-wider uppercase">
+                    {label}
+                </span>
+                <a
+                    href={`https://www.flightaware.com/live/flight/${flight.flightNumber}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    <IconExternalLink className="text-muted-foreground size-3" />
+                </a>
+            </div>
             <div className="flex items-center gap-4">
                 <div className="flex flex-col items-center gap-1">
                     <span className="text-foreground text-lg font-semibold">
@@ -94,7 +111,7 @@ export function FlightCard({
                 <div className="flex items-center justify-between border-t pt-4">
                     <div className="text-muted-foreground flex items-center gap-2 text-sm">
                         <Badge variant="outline" className="text-xs">
-                            {outbound.class}
+                            {returnFlight.class || outbound.class}
                         </Badge>
                         <span>Round trip</span>
                     </div>

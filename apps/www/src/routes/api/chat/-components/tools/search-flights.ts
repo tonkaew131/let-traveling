@@ -1,11 +1,15 @@
 import * as z from 'zod'
 import { tool } from 'ai'
 import { parse, toSeconds } from 'iso8601-duration'
+import { and, eq } from 'drizzle-orm'
 import { duffel } from '@/lib/duffel'
 import { redis } from '@/ioredis'
+import { db, schema } from '@/db'
 
 export type FlightData = {
     airline: string
+    airlineLogoUrl: string | null
+
     flightNumber: string
     duration: string
     class: string
@@ -29,6 +33,70 @@ const formatDuration = (durationSeconds: number) => {
     const hours = Math.floor(durationSeconds / 3600)
     const minutes = Math.floor((durationSeconds % 3600) / 60)
     return `${hours}h ${minutes}m`
+}
+
+const searchICAOAirline = async (
+    query: {
+        iata: string | null
+        name: string | null
+    },
+    data: {
+        logoSymbolUrl: string | null
+    },
+) => {
+    const airlines = await db
+        .select()
+        .from(schema.airlines)
+        .where(
+            and(
+                query.iata ? eq(schema.airlines.iata, query.iata) : undefined,
+                query.name ? eq(schema.airlines.name, query.name) : undefined,
+            ),
+        )
+        .limit(1)
+    const airline = airlines[0] as
+        | typeof schema.airlines.$inferSelect
+        | undefined
+
+    if (airline) {
+        return airline.icao
+    }
+
+    const res = await fetch(
+        `https://airlabs.co/api/v9/airlines?api_key=${process.env.AIRLABS_API_KEY}&` +
+            (query.iata ? `iata_code=${query.iata}` : '') +
+            (query.name ? `name=${query.name}` : ''),
+    )
+
+    let icaoCode: string | null = null
+    let iataCode: string | null = query.iata
+    let name: string | null = query.name
+    if (res.ok) {
+        const airlineData = (await res.json()) as {
+            response: Array<{
+                name: string
+                iata_code: string
+                icao_code: string
+            }>
+        }
+
+        if (airlineData.response.length > 0) {
+            icaoCode = airlineData.response[0].icao_code
+            iataCode = airlineData.response[0].iata_code
+            name = airlineData.response[0].name
+        }
+    }
+
+    if (iataCode) {
+        await db.insert(schema.airlines).values({
+            iata: iataCode,
+            icao: icaoCode,
+            name: name || '',
+            logoSymbolUrl: data.logoSymbolUrl || '',
+        })
+    }
+
+    return icaoCode
 }
 
 export const searchFlights = tool({
@@ -92,11 +160,45 @@ export const searchFlights = tool({
             ? toSeconds(parse(returnSlice.duration))
             : null
 
+        const outboundAirlineICAO = await searchICAOAirline(
+            outboundSlice.segments[0].operating_carrier.iata_code
+                ? {
+                      iata: outboundSlice.segments[0].operating_carrier
+                          .iata_code,
+                      name: null,
+                  }
+                : {
+                      iata: null,
+                      name: outboundSlice.segments[0].operating_carrier.name,
+                  },
+            {
+                logoSymbolUrl:
+                    outboundSlice.segments[0].operating_carrier.logo_symbol_url,
+            },
+        )
+        const returnAirlineICAO = await searchICAOAirline(
+            returnSlice.segments[0].operating_carrier.iata_code
+                ? {
+                      iata: returnSlice.segments[0].operating_carrier.iata_code,
+                      name: null,
+                  }
+                : {
+                      iata: null,
+                      name: returnSlice.segments[0].operating_carrier.name,
+                  },
+            {
+                logoSymbolUrl:
+                    returnSlice.segments[0].operating_carrier.logo_symbol_url,
+            },
+        )
+
         return {
             totalPrice: parseFloat(cheapestOffer.total_amount),
             outbound: {
                 airline: outboundSlice.segments[0].operating_carrier.name,
-                flightNumber: `${outboundSlice.segments[0].operating_carrier.iata_code}${parseInt(outboundSlice.segments[0].operating_carrier_flight_number)}`,
+                airlineLogoUrl:
+                    outboundSlice.segments[0].operating_carrier.logo_symbol_url,
+                flightNumber: `${outboundAirlineICAO || outboundSlice.segments[0].operating_carrier.iata_code || outboundSlice.segments[0].operating_carrier.name}${parseInt(outboundSlice.segments[0].operating_carrier_flight_number)}`,
                 duration: outboundDurationSeconds
                     ? formatDuration(outboundDurationSeconds)
                     : null,
@@ -112,7 +214,9 @@ export const searchFlights = tool({
             },
             return: {
                 airline: returnSlice.segments[0].operating_carrier.name,
-                flightNumber: `${returnSlice.segments[0].operating_carrier.iata_code}${parseInt(returnSlice.segments[0].operating_carrier_flight_number)}`,
+                airlineLogoUrl:
+                    returnSlice.segments[0].operating_carrier.logo_symbol_url,
+                flightNumber: `${returnAirlineICAO || returnSlice.segments[0].operating_carrier.iata_code || returnSlice.segments[0].operating_carrier.name}${parseInt(returnSlice.segments[0].operating_carrier_flight_number)}`,
                 duration: returnDurationSeconds
                     ? formatDuration(returnDurationSeconds)
                     : null,

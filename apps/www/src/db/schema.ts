@@ -7,6 +7,14 @@ import {
     uuid,
 } from 'drizzle-orm/pg-core'
 
+export const airlines = pgTable('airlines', {
+    iata: text().primaryKey(),
+    icao: text(),
+
+    name: text().notNull(),
+    logoSymbolUrl: text().notNull(),
+})
+
 export const trips = pgTable('trips', {
     id: uuid().defaultRandom().primaryKey(),
     title: text().notNull(),
