@@ -1,20 +1,7 @@
-'use client'
-
-import { ArrowRight, Clock, Plane } from 'lucide-react'
+import { Clock, Plane } from 'lucide-react'
+import type { FlightData } from '@/routes/api/chat/-components/tools/search-flights'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
-
-interface FlightData {
-    airline: string
-    flightNumber: string
-    departure: string
-    arrival: string
-    departureTime: string
-    arrivalTime: string
-    duration: string
-    price: number
-    class: string
-}
 
 interface FlightCardProps {
     outbound: FlightData

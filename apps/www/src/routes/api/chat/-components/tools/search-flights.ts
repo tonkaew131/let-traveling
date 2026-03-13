@@ -4,80 +4,25 @@ import { parse, toSeconds } from 'iso8601-duration'
 import { duffel } from '@/lib/duffel'
 import { redis } from '@/ioredis'
 
-type SearchFlightsResult = {
-    outbound: {
-        airline: string
-        flightNumber: string
-        departure: string
-        arrival: string
-        departureTime: string
-        arrivalTime: string
-        duration: string
-        price: number
-        class: string
-    }
-    return: {
-        airline: string
-        flightNumber: string
-        departure: string
-        arrival: string
-        departureTime: string
-        arrivalTime: string
-        duration: string
-        price: number
-        class: string
-    }
-    totalPrice: number
+export type FlightData = {
+    airline: string
+    flightNumber: string
+    duration: string
+    class: string
+
+    departure: string
+    departureTime: string
+    departureZone: string
+
+    arrival: string
+    arrivalTime: string
+    arrivalZone: string
 }
 
-const mockSearchFlights = async (options: {
-    from: string
-    to: string
-    departureDate: string
-    returnDate: string
-    travelers: number
-}): Promise<SearchFlightsResult> => {
-    const { from, to, departureDate, returnDate, travelers } = options
-
-    await new Promise((r) => setTimeout(r, 800))
-    const airlines = [
-        'Emirates',
-        'Singapore Airlines',
-        'Qatar Airways',
-        'Lufthansa',
-        'Delta',
-        'Japan Airlines',
-        'British Airways',
-    ]
-    const airline = airlines[Math.floor(Math.random() * airlines.length)]
-    const basePrice = 400 + Math.floor(Math.random() * 800)
-
-    return {
-        outbound: {
-            airline,
-            flightNumber: `${airline.substring(0, 2).toUpperCase()}${100 + Math.floor(Math.random() * 900)}`,
-            departure: from,
-            arrival: to,
-            departureTime: `${departureDate}T${6 + Math.floor(Math.random() * 12)}:${['00', '15', '30', '45'][Math.floor(Math.random() * 4)]}`,
-            arrivalTime: `${departureDate}T${14 + Math.floor(Math.random() * 8)}:${['00', '15', '30', '45'][Math.floor(Math.random() * 4)]}`,
-            duration: `${4 + Math.floor(Math.random() * 12)}h ${Math.floor(Math.random() * 4) * 15}m`,
-            price: basePrice,
-            class: 'Economy',
-        },
-        return: {
-            airline,
-            flightNumber: `${airline.substring(0, 2).toUpperCase()}${100 + Math.floor(Math.random() * 900)}`,
-            departure: to,
-            arrival: from,
-            departureTime: `${returnDate}T${6 + Math.floor(Math.random() * 12)}:${['00', '15', '30', '45'][Math.floor(Math.random() * 4)]}`,
-            arrivalTime: `${returnDate}T${14 + Math.floor(Math.random() * 8)}:${['00', '15', '30', '45'][Math.floor(Math.random() * 4)]}`,
-            duration: `${4 + Math.floor(Math.random() * 12)}h ${Math.floor(Math.random() * 4) * 15}m`,
-            price: basePrice - 50 + Math.floor(Math.random() * 100),
-            class: 'Economy',
-        },
-        totalPrice:
-            (basePrice * 2 - 50 + Math.floor(Math.random() * 100)) * travelers,
-    }
+export type SearchFlightsResult = {
+    outbound: FlightData
+    return: FlightData
+    totalPrice: number
 }
 
 const formatDuration = (durationSeconds: number) => {
@@ -99,10 +44,8 @@ export const searchFlights = tool({
         travelers: z.number().describe('Number of travelers'),
     }),
     execute: async ({ from, to, departureDate, returnDate, travelers }) => {
-        // TODO: Implement with Duffel API
-
         const cacheKey = `searchFlights:${from}:${to}:${departureDate}:${returnDate}:${travelers}`
-        const cachedResult = await redis.get(cacheKey)
+        // const cachedResult = await redis.get(cacheKey)
         // if (cachedResult) {
         //     return JSON.parse(cachedResult)
         // }
@@ -154,37 +97,35 @@ export const searchFlights = tool({
             outbound: {
                 airline: outboundSlice.segments[0].operating_carrier.name,
                 flightNumber: `${outboundSlice.segments[0].operating_carrier.iata_code}${parseInt(outboundSlice.segments[0].operating_carrier_flight_number)}`,
-                departure: outboundSlice.segments[0].origin.iata_code,
-                arrival: outboundSlice.segments[0].destination.iata_code,
-                departureTime: outboundSlice.segments[0].departing_at,
-                arrivalTime: outboundSlice.segments[0].arriving_at,
                 duration: outboundDurationSeconds
                     ? formatDuration(outboundDurationSeconds)
                     : null,
                 class: outboundSlice.fare_brand_name,
-                price: 0,
+
+                departure: outboundSlice.segments[0].origin.iata_code,
+                departureTime: outboundSlice.segments[0].departing_at,
+                departureZone: outboundSlice.segments[0].origin.time_zone,
+
+                arrival: outboundSlice.segments[0].destination.iata_code,
+                arrivalTime: outboundSlice.segments[0].arriving_at,
+                arrivalZone: outboundSlice.segments[0].destination.time_zone,
             },
             return: {
                 airline: returnSlice.segments[0].operating_carrier.name,
                 flightNumber: `${returnSlice.segments[0].operating_carrier.iata_code}${parseInt(returnSlice.segments[0].operating_carrier_flight_number)}`,
-                departure: returnSlice.segments[0].origin.iata_code,
-                arrival: returnSlice.segments[0].destination.iata_code,
-                departureTime: returnSlice.segments[0].departing_at,
-                arrivalTime: returnSlice.segments[0].arriving_at,
                 duration: returnDurationSeconds
                     ? formatDuration(returnDurationSeconds)
                     : null,
                 class: returnSlice.fare_brand_name,
-                price: 0,
+
+                departure: returnSlice.segments[0].origin.iata_code,
+                departureTime: returnSlice.segments[0].departing_at,
+                departureZone: returnSlice.segments[0].origin.time_zone,
+
+                arrival: returnSlice.segments[0].destination.iata_code,
+                arrivalTime: returnSlice.segments[0].arriving_at,
+                arrivalZone: returnSlice.segments[0].destination.time_zone,
             },
         } as SearchFlightsResult
-
-        return await mockSearchFlights({
-            from,
-            to,
-            departureDate,
-            returnDate,
-            travelers,
-        })
     },
 })
