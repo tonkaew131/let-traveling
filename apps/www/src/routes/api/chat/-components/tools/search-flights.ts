@@ -91,5 +91,12 @@ export const searchFlights = tool({
     }),
     execute: async ({ from, to, departureDate, returnDate, travelers }) => {
         // TODO: Implement with Duffel API
+        return await mockSearchFlights({
+            from,
+            to,
+            departureDate,
+            returnDate,
+            travelers,
+        })
     },
 })
