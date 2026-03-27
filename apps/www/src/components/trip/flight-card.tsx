@@ -104,7 +104,9 @@ export function FlightCard({
                             variant="secondary"
                             className="bg-primary/10 text-primary border-0"
                         >
-                            {outbound.airline}
+                            {typeof outbound.airline === 'string'
+                                ? outbound.airline
+                                : 'N/A'}
                         </Badge>
                         {onEdit && (
                             <Button
