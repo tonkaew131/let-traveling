@@ -40,7 +40,7 @@ const tools = {
                 .string()
                 .describe('User instruction describing what to change'),
         }),
-        execute: async ({ instruction }) => {
+        execute: ({ instruction }) => {
             return { instruction }
         },
     }),
@@ -55,7 +55,7 @@ const tools = {
                 .string()
                 .describe('User instruction describing what to change'),
         }),
-        execute: async ({ instruction }) => {
+        execute: ({ instruction }) => {
             return { instruction }
         },
     }),
@@ -96,7 +96,7 @@ const tools = {
                     'List of activities for this day, ordered chronologically',
                 ),
         }),
-        execute: async ({
+        execute: ({
             day,
             date,
             title,
@@ -123,7 +123,7 @@ const tools = {
                 .string()
                 .describe('A brief, exciting 2-3 sentence summary of the trip'),
         }),
-        execute: async (data) => {
+        execute: (data) => {
             return data
         },
     }),

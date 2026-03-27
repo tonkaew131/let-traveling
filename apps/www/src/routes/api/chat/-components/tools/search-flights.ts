@@ -117,10 +117,10 @@ export const searchFlights = tool({
     }),
     execute: async ({ from, to, departureDate, returnDate, travelers }) => {
         const cacheKey = `searchFlights:${from}:${to}:${departureDate}:${returnDate}:${travelers}`
-        // const cachedResult = await redis.get(cacheKey)
-        // if (cachedResult) {
-        //     return JSON.parse(cachedResult)
-        // }
+        const cachedResult = await redis.get(cacheKey)
+        if (cachedResult) {
+            return JSON.parse(cachedResult)
+        }
 
         const results = await duffel.offerRequests.create({
             slices: [
