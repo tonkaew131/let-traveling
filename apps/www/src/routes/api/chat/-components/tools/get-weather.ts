@@ -3,11 +3,11 @@ import * as z from 'zod'
 import { accuweatherConfig } from '@/lib/accuweather'
 
 const mapWeatherIcon = (iconCode: number): string => {
-    if (iconCode >= 1 && iconCode <= 5) return 'sun';
-    if (iconCode >= 6 && iconCode <= 11) return 'cloud';
-    if (iconCode >= 12 && iconCode <= 18) return 'cloud-rain';
-    if (iconCode >= 33 && iconCode <= 44) return 'moon';
-    return 'cloud-sun'; 
+    if (iconCode >= 1 && iconCode <= 5) return 'sun'
+    if (iconCode >= 6 && iconCode <= 11) return 'cloud'
+    if (iconCode >= 12 && iconCode <= 18) return 'cloud-rain'
+    if (iconCode >= 33 && iconCode <= 44) return 'moon'
+    return 'cloud-sun'
 }
 
 export const getWeatherTool = tool({
@@ -24,13 +24,13 @@ export const getWeatherTool = tool({
             const locationUrl = `${baseUrl}/locations/v1/cities/search?apikey=${apiKey}&q=${encodeURIComponent(city)}`
             const locationResponse = await fetch(locationUrl)
             const locationData = await locationResponse.json()
-            if (!locationData ||locationData.length === 0) {
-                return { error: 'Could not find location key for ' + city };
+            if (!locationData || locationData.length === 0) {
+                return { error: 'Could not find location key for ' + city }
             }
 
             const locationKey = locationData[0].Key
             const localizedCityName = locationData[0].LocalizedName
-            //const country = locationData[0].Country.ID
+            // const country = locationData[0].Country.ID
 
             const forecastUrl = `${baseUrl}/forecasts/v1/daily/5day/${locationKey}?apikey=${apiKey}&metric=true&details=true`
             const forecastResponse = await fetch(forecastUrl)
@@ -39,14 +39,17 @@ export const getWeatherTool = tool({
             const forecast = dates.map((requestedDate) => {
                 const dayMatch = rawForecastData.DailyForecasts.find((f: any) =>
                     f.Date.startsWith(requestedDate),
-            )
+                )
                 if (dayMatch) {
                     return {
                         date: requestedDate,
                         condition: dayMatch.Day.IconPhrase,
-                        highTemp: Math.round(dayMatch.Temperature.Maximum.Value),
+                        highTemp: Math.round(
+                            dayMatch.Temperature.Maximum.Value,
+                        ),
                         lowTemp: Math.round(dayMatch.Temperature.Minimum.Value),
-                        percentPrecipitation: dayMatch.Day.PrecipitationProbability ?? 0,
+                        percentPrecipitation:
+                            dayMatch.Day.PrecipitationProbability ?? 0,
                         icon: mapWeatherIcon(dayMatch.Day.Icon),
                     }
                 }
@@ -62,11 +65,11 @@ export const getWeatherTool = tool({
             return {
                 city: localizedCityName,
                 locationKey,
-                forecast: forecast
+                forecast: forecast,
             }
-    } catch (error) {
-        console.error('Error fetching weather data:', error)
-        throw new Error('Failed to fetch weather data') 
-    }
+        } catch (error) {
+            console.error('Error fetching weather data:', error)
+            throw new Error('Failed to fetch weather data')
+        }
     },
 })
