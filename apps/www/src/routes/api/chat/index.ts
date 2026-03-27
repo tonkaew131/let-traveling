@@ -152,7 +152,9 @@ When a user asks you to plan a trip, follow these steps IN ORDER:
 
 1. First, use searchFlights to find flights
 2. Then, use searchHotels to find accommodation
-3. Then, use getWeather to get the weather forecast for all trip dates
+3. Then, use getWeather to retrieve the forecast.
+    - Detailed weather data is accessible for up to 5 days from today. 
+    - For trips exceeding this duration, skip getWeather.
 4. Then, use createDayPlan for EACH day of the trip (call it multiple times, once per day). Make sure each day has:
    - A catchy title
    - 4-6 activities with real-ish coordinates for the destination
@@ -161,7 +163,7 @@ When a user asks you to plan a trip, follow these steps IN ORDER:
    - The weather data for that specific day
 5. Finally, use generateTripSummary to create the overview
 
-IMPORTANT: 
+IMPORTANT:
 - Use realistic latitude/longitude coordinates for actual landmarks and restaurants in the destination city
 - Make activities diverse and interesting
 - Include meal times (breakfast, lunch, dinner)
