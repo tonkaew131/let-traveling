@@ -25,7 +25,7 @@ interface DayPlan {
 function extractAllTripData(messages: Array<UIMessage>) {
     const flights: Array<any> = []
     const hotels: Array<any> = []
-    const dayPlans: Array<DayPlan> = []
+    const dayPlanByDay: Record<number, DayPlan> = {}
     const summaries: Array<any> = []
 
     for (const msg of messages) {
@@ -39,7 +39,11 @@ function extractAllTripData(messages: Array<UIMessage>) {
                 const output = part.output as any
                 if (toolName === 'searchFlights') flights.push(output)
                 if (toolName === 'searchHotels') hotels.push(output)
-                if (toolName === 'createDayPlan') dayPlans.push(output)
+                if (toolName === 'createDayPlan') {
+                    if (typeof output?.day === 'number') {
+                        dayPlanByDay[output.day] = output as DayPlan
+                    }
+                }
                 if (toolName === 'generateTripSummary') summaries.push(output)
             }
         }
@@ -48,7 +52,7 @@ function extractAllTripData(messages: Array<UIMessage>) {
     return {
         flights,
         hotels,
-        dayPlans: dayPlans.sort((a, b) => a.day - b.day),
+        dayPlans: Object.values(dayPlanByDay).sort((a, b) => a.day - b.day),
         summaries,
     }
 }
