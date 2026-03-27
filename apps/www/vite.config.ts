@@ -7,6 +7,9 @@ import tailwindcss from '@tailwindcss/vite'
 import { nitro } from 'nitro/vite'
 
 const config = defineConfig({
+    server: {
+        allowedHosts: ['network-val-interaction-rico.trycloudflare.com'],
+    },
     plugins: [
         devtools(),
         nitro(),

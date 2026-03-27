@@ -162,7 +162,7 @@ export function TripDisplay({
                                 />
                             )}
                             {/* Weather Strip */}
-                            {allWeather.length > 0 && (
+                            {allWeather?.length > 0 && (
                                 <div>
                                     <h3 className="text-foreground mb-2 text-sm font-semibold">
                                         Weather Forecast

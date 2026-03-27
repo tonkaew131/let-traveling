@@ -9,7 +9,8 @@
     "format": "bun run --filter \"*\" format",
     "db:generate": "dotenv -- bun run --filter @let-traveling/www db:generate",
     "db:migrate": "dotenv -- bun run --filter @let-traveling/www --elide-lines=0 db:migrate",
-    "db:studio": "dotenv -- bun run --filter @let-traveling/www db:studio"
+    "db:studio": "dotenv -- bun run --filter @let-traveling/www db:studio",
+    "tunnel": "cloudflared tunnel --url http://localhost:3001"
   },
   "dependencies": {
     "dotenv-cli": "^11.0.0"
