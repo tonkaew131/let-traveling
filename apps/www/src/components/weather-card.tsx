@@ -5,6 +5,7 @@ import {
     Droplets,
     Snowflake,
     Sun,
+    Moon,
 } from 'lucide-react'
 
 interface WeatherCardProps {
@@ -12,7 +13,7 @@ interface WeatherCardProps {
     condition: string
     highTemp: number
     lowTemp: number
-    humidity: number
+    percentPrecipitation: number
     icon: string
 }
 
@@ -22,10 +23,11 @@ const weatherIcons: Record<string, React.ReactNode> = {
     cloud: <Cloud className="text-muted-foreground size-6" />,
     'cloud-rain': <CloudRain className="text-primary size-6" />,
     snow: <Snowflake className="text-primary size-6" />,
+    moon: <Moon className="text-yellow-200 size-6" />,
 }
 
 export default function WeatherCard(props: WeatherCardProps) {
-    const { date, condition, highTemp, lowTemp, humidity, icon } = props
+    const { date, condition, highTemp, lowTemp, percentPrecipitation, icon } = props
 
     return (
         <div
@@ -50,7 +52,7 @@ export default function WeatherCard(props: WeatherCardProps) {
             </div>
             <div className="text-muted-foreground flex items-center gap-1 text-xs">
                 <Droplets className="size-3" />
-                {humidity}%
+                {percentPrecipitation}%
             </div>
         </div>
     )

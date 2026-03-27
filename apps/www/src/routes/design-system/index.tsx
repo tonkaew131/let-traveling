@@ -1,6 +1,7 @@
 import { Link, createFileRoute } from '@tanstack/react-router'
 import { IconChevronLeft } from '@tabler/icons-react'
 import DuffelApiSection from './-components/duffel-api-section'
+import WeatherApiSection from './-components/weather-api-section'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Button } from '@/components/ui/button'
@@ -55,11 +56,14 @@ function RouteComponent() {
                             condition="Partly Cloudy"
                             highTemp={88}
                             lowTemp={75}
-                            humidity={69}
+                            percentPrecipitation={20}
                         />
                     </div>
                 </section>
-
+                <section className="grid gap-2">
+                    <Label>Weather API Real Data</Label>
+                    <WeatherApiSection />
+                </section>
                 <section className="grid gap-2">
                     <Label>Duffel API</Label>
                     <DuffelApiSection />
