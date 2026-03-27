@@ -5,7 +5,7 @@ interface WeatherDay {
     condition: string
     highTemp: number
     lowTemp: number
-    humidity: number
+    percentPrecipitation: number
     icon: string
 }
 

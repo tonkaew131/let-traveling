@@ -37,7 +37,10 @@ function extractToolData(messages: Array<UIMessage>) {
             ) {
                 const toolName = part.type.replace('tool-', '')
                 const output = part.output as any
-                if (toolName === 'searchFlights' || toolName === 'updateFlights')
+                if (
+                    toolName === 'searchFlights' ||
+                    toolName === 'updateFlights'
+                )
                     flights.push(output)
                 if (toolName === 'searchHotels' || toolName === 'updateHotel')
                     hotels.push(output)
@@ -80,7 +83,9 @@ export function TripDisplay({
 
     const sortedDayPlans = [...dayPlans].sort((a, b) => a.day - b.day)
     const currentDay = sortedDayPlans[activeDay]
-    const allWeather = weather.length > 0 ? weather[0].forecast : []
+
+    const allWeather =
+        weather.length > 0 ? weather[weather.length - 1].forecast : []
 
     const openEdit = (target: EditTarget) => {
         setEditTarget(target)
