@@ -1,13 +1,15 @@
-import { Clock, Plane } from 'lucide-react'
+import { Clock, Pencil, Plane } from 'lucide-react'
 import { IconExternalLink } from '@tabler/icons-react'
 import type { FlightData } from '@/routes/api/chat/-components/tools/search-flights'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
 
 interface FlightCardProps {
     outbound: FlightData
     returnFlight: FlightData
     totalPrice: number
+    onEdit?: () => void
 }
 
 function FlightSegment({
@@ -87,6 +89,7 @@ export function FlightCard({
     outbound,
     returnFlight,
     totalPrice,
+    onEdit,
 }: FlightCardProps) {
     return (
         <Card className="border-primary/20 overflow-hidden pt-0">
@@ -96,12 +99,26 @@ export function FlightCard({
                         <Plane className="text-primary size-5" />
                         <CardTitle className="text-base">Flights</CardTitle>
                     </div>
-                    <Badge
-                        variant="secondary"
-                        className="bg-primary/10 text-primary border-0"
-                    >
-                        {outbound.airline}
-                    </Badge>
+                    <div className="flex items-center gap-2">
+                        <Badge
+                            variant="secondary"
+                            className="bg-primary/10 text-primary border-0"
+                        >
+                            {outbound.airline}
+                        </Badge>
+                        {onEdit && (
+                            <Button
+                                type="button"
+                                size="sm"
+                                variant="outline"
+                                onClick={onEdit}
+                                className="gap-2"
+                            >
+                                <Pencil className="size-4" />
+                                Edit
+                            </Button>
+                        )}
+                    </div>
                 </div>
             </CardHeader>
             <CardContent className="flex flex-col gap-6">

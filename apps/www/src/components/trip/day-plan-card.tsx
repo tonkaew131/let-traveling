@@ -15,12 +15,13 @@ import {
     MapPin,
     Mountain,
     Palmtree,
+    Pencil,
     ShoppingBag,
     Sun,
     UtensilsCrossed,
 } from 'lucide-react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
 
 interface Activity {
     time: string
@@ -47,6 +48,7 @@ interface DayPlanCardProps {
     activities: Array<Activity>
     isActive: boolean
     onSelect: () => void
+    onEdit?: () => void
 }
 
 const categoryIcons: Record<string, React.ReactNode> = {
@@ -85,6 +87,7 @@ export function DayPlanCard({
     activities,
     isActive,
     onSelect,
+    onEdit,
 }: DayPlanCardProps) {
     const [expanded, setExpanded] = useState(isActive)
     const totalCost = activities.reduce((sum, a) => sum + a.cost, 0)
@@ -120,6 +123,20 @@ export function DayPlanCard({
                                 {weather.highTemp}°
                             </span>
                         </div>
+                        {onEdit && (
+                            <Button
+                                type="button"
+                                size="icon-sm"
+                                variant="outline"
+                                onClick={(e) => {
+                                    e.stopPropagation()
+                                    onEdit()
+                                }}
+                                className="gap-2"
+                            >
+                                <Pencil className="size-3.5" />
+                            </Button>
+                        )}
                         <button
                             onClick={(e) => {
                                 e.stopPropagation()

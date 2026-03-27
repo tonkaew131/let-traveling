@@ -5,6 +5,7 @@ import {
     CarFront,
     Coffee,
     Dumbbell,
+    Pencil,
     Star,
     UtensilsCrossed,
     Waves,
@@ -12,6 +13,7 @@ import {
 } from 'lucide-react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
 
 interface HotelCardProps {
     name: string
@@ -22,6 +24,7 @@ interface HotelCardProps {
     checkIn: string
     checkOut: string
     totalPrice: number
+    onEdit?: () => void
 }
 
 const amenityIcons: Record<string, React.ReactNode> = {
@@ -42,6 +45,7 @@ export function HotelCard({
     checkIn,
     checkOut,
     totalPrice,
+    onEdit,
 }: HotelCardProps) {
     const nights = Math.ceil(
         (new Date(checkOut).getTime() - new Date(checkIn).getTime()) / 86400000,
@@ -55,11 +59,25 @@ export function HotelCard({
                         <Building2 className="text-accent size-5" />
                         <CardTitle className="text-base">Hotel</CardTitle>
                     </div>
-                    <div className="flex items-center gap-1">
-                        <Star className="fill-accent text-accent size-4" />
-                        <span className="text-foreground text-sm font-semibold">
-                            {rating.toFixed(1)}
-                        </span>
+                    <div className="flex items-center gap-2">
+                        <div className="flex items-center gap-1">
+                            <Star className="fill-accent text-accent size-4" />
+                            <span className="text-foreground text-sm font-semibold">
+                                {rating.toFixed(1)}
+                            </span>
+                        </div>
+                        {onEdit && (
+                            <Button
+                                type="button"
+                                size="sm"
+                                variant="outline"
+                                onClick={onEdit}
+                                className="gap-2"
+                            >
+                                <Pencil className="size-4" />
+                                Edit
+                            </Button>
+                        )}
                     </div>
                 </div>
             </CardHeader>

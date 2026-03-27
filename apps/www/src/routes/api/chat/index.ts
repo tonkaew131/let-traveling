@@ -32,7 +32,33 @@ const activitySchema = z.object({
 const tools = {
     searchFlights: searchFlights,
 
+    updateFlights: tool({
+        description:
+            'Update flight preferences for an existing trip. Use when the user wants different flights without re-planning the whole itinerary.',
+        inputSchema: z.object({
+            instruction: z
+                .string()
+                .describe('User instruction describing what to change'),
+        }),
+        execute: async ({ instruction }) => {
+            return { instruction }
+        },
+    }),
+
     searchHotels: searchHotels,
+
+    updateHotel: tool({
+        description:
+            'Update hotel preferences for an existing trip. Use when the user wants a different hotel without re-planning the whole itinerary.',
+        inputSchema: z.object({
+            instruction: z
+                .string()
+                .describe('User instruction describing what to change'),
+        }),
+        execute: async ({ instruction }) => {
+            return { instruction }
+        },
+    }),
 
     getWeather: getWeatherTool,
 
@@ -48,6 +74,12 @@ const tools = {
                     'A catchy title for this day, e.g. "Historic Old Town & Beach Day"',
                 ),
             city: z.string().describe('The city for this day'),
+            instruction: z
+                .string()
+                .optional()
+                .describe(
+                    'Optional user instruction to update this specific day plan, e.g. "shopping instead of temples"',
+                ),
             weather: z.object({
                 date: z.string(),
                 condition: z.string(),
@@ -64,8 +96,16 @@ const tools = {
                     'List of activities for this day, ordered chronologically',
                 ),
         }),
-        execute: async ({ day, date, title, city, weather, activities }) => {
-            return { day, date, title, city, weather, activities }
+        execute: async ({
+            day,
+            date,
+            title,
+            city,
+            instruction,
+            weather,
+            activities,
+        }) => {
+            return { day, date, title, city, instruction, weather, activities }
         },
     }),
 
@@ -115,6 +155,11 @@ IMPORTANT:
 - Include meal times (breakfast, lunch, dinner)
 - Consider weather when suggesting activities
 - When users ask to modify the plan, use the relevant tools to update just that part
+
+Editing rules (very important):
+- If the user asks to change flights: use updateFlights to capture the instruction, then call searchFlights again with updated preferences if needed.
+- If the user asks to change hotel: use updateHotel to capture the instruction, then call searchHotels again with updated preferences if needed.
+- If the user asks to change a specific day: call createDayPlan ONLY for that day. Include the user's instruction in the optional instruction field and adjust activities accordingly. Do NOT regenerate other days.
 - Today is ${currentDate.toDateString()}
 
 Always be enthusiastic but professional. Format text responses with markdown for readability.`

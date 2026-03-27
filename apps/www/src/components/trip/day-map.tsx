@@ -16,16 +16,6 @@ interface DayMapProps {
     className?: string
 }
 
-const categoryEmoji: Record<string, string> = {
-    sightseeing: 'S',
-    food: 'F',
-    adventure: 'A',
-    culture: 'C',
-    shopping: '$',
-    relaxation: 'R',
-    transport: 'T',
-}
-
 export function DayMap({ activities, className }: DayMapProps) {
     const mapRef = useRef<HTMLDivElement>(null)
     const mapInstanceRef = useRef<any>(null)
@@ -35,7 +25,7 @@ export function DayMap({ activities, className }: DayMapProps) {
         if (!mapRef.current || activities.length === 0) return
 
         const loadMap = async () => {
-            // @ts-ignore
+            // @ts-ignore - leaflet has no types in this app bundle; dynamic import keeps it client-only.
             const L = await import('leaflet')
             await import('leaflet/dist/leaflet.css')
 

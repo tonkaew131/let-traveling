@@ -4,6 +4,7 @@ import { useChat } from '@ai-sdk/react'
 import { DefaultChatTransport } from 'ai'
 import { IconMap, IconMessage } from '@tabler/icons-react'
 import { getTripMessages, saveTripMessages } from './-components/actions'
+import type { EditTarget } from '@/components/trip/edit-plan-modal'
 import { exportTripPDF } from '@/lib/export-pdf'
 import { ChatPanel } from '@/components/trip/chat-panel'
 import { TripDisplay } from '@/components/trip/trip-display'
@@ -117,6 +118,26 @@ function RouteComponent() {
         sendMessage({ text })
     }
 
+    const handleRequestEdit = (target: EditTarget, instruction: string) => {
+        if (target.type === 'day') {
+            handleSendMessage(
+                `Update Day ${target.day}: ${instruction}. Only update this day plan and keep other days the same.`,
+            )
+            return
+        }
+
+        if (target.type === 'hotel') {
+            handleSendMessage(
+                `Update the hotel booking: ${instruction}. Keep the same dates and trip.`,
+            )
+            return
+        }
+
+        handleSendMessage(
+            `Update the flights: ${instruction}. Keep the same trip dates and destination.`,
+        )
+    }
+
     const handleExportPDF = () => {
         exportTripPDF(messages)
     }
@@ -176,6 +197,7 @@ function RouteComponent() {
                         <TripDisplay
                             messages={messages}
                             onExportPDF={handleExportPDF}
+                            onRequestEdit={handleRequestEdit}
                         />
                     </div>
                 )}

@@ -1,13 +1,15 @@
 'use client'
 
 import { useMemo, useState } from 'react'
-import { CalendarDays, FileDown, Map, Plane } from 'lucide-react'
+import { CalendarDays, FileDown, Map as MapIcon, Plane } from 'lucide-react'
 import { FlightCard } from './flight-card'
 import { HotelCard } from './hotel-card'
 import { WeatherStrip } from './weather-strip'
 import { DayPlanCard } from './day-plan-card'
 import { DayMap } from './day-map'
 import { TripSummary } from './trip-summary'
+import { EditPlanModal } from './edit-plan-modal'
+import type { EditTarget } from './edit-plan-modal'
 import type { UIMessage } from 'ai'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
@@ -16,13 +18,14 @@ import { Button } from '@/components/ui/button'
 interface TripDisplayProps {
     messages: Array<UIMessage>
     onExportPDF: () => void
+    onRequestEdit?: (target: EditTarget, instruction: string) => void
 }
 
 function extractToolData(messages: Array<UIMessage>) {
     const flights: Array<any> = []
     const hotels: Array<any> = []
     const weather: Array<any> = []
-    const dayPlans: Array<any> = []
+    const dayPlanByDay: Record<number, any> = {}
     const summaries: Array<any> = []
 
     for (const msg of messages) {
@@ -34,20 +37,38 @@ function extractToolData(messages: Array<UIMessage>) {
             ) {
                 const toolName = part.type.replace('tool-', '')
                 const output = part.output as any
-                if (toolName === 'searchFlights') flights.push(output)
-                if (toolName === 'searchHotels') hotels.push(output)
+                if (toolName === 'searchFlights' || toolName === 'updateFlights')
+                    flights.push(output)
+                if (toolName === 'searchHotels' || toolName === 'updateHotel')
+                    hotels.push(output)
                 if (toolName === 'getWeather') weather.push(output)
-                if (toolName === 'createDayPlan') dayPlans.push(output)
+                if (toolName === 'createDayPlan') {
+                    if (typeof output?.day === 'number') {
+                        dayPlanByDay[output.day] = output
+                    }
+                }
                 if (toolName === 'generateTripSummary') summaries.push(output)
             }
         }
     }
 
-    return { flights, hotels, weather, dayPlans, summaries }
+    return {
+        flights,
+        hotels,
+        weather,
+        dayPlans: Object.values(dayPlanByDay),
+        summaries,
+    }
 }
 
-export function TripDisplay({ messages, onExportPDF }: TripDisplayProps) {
+export function TripDisplay({
+    messages,
+    onExportPDF,
+    onRequestEdit,
+}: TripDisplayProps) {
     const [activeDay, setActiveDay] = useState(0)
+    const [editOpen, setEditOpen] = useState(false)
+    const [editTarget, setEditTarget] = useState<EditTarget | null>(null)
     const { flights, hotels, weather, dayPlans, summaries } = useMemo(
         () => extractToolData(messages),
         [messages],
@@ -61,8 +82,27 @@ export function TripDisplay({ messages, onExportPDF }: TripDisplayProps) {
     const currentDay = sortedDayPlans[activeDay]
     const allWeather = weather.length > 0 ? weather[0].forecast : []
 
+    const openEdit = (target: EditTarget) => {
+        setEditTarget(target)
+        setEditOpen(true)
+    }
+
     return (
         <div id="trip-display" className="flex h-full flex-col">
+            <EditPlanModal
+                open={editOpen}
+                target={editTarget}
+                onOpenChange={(open) => {
+                    setEditOpen(open)
+                    if (!open) setEditTarget(null)
+                }}
+                onSubmit={(instruction) => {
+                    const t = editTarget
+                    setEditOpen(false)
+                    setEditTarget(null)
+                    if (t) onRequestEdit?.(t, instruction)
+                }}
+            />
             {/* Header */}
             <div className="bg-card flex items-center justify-between border-b px-4 py-3">
                 <h2 className="text-foreground text-lg font-bold">Your Trip</h2>
@@ -103,7 +143,7 @@ export function TripDisplay({ messages, onExportPDF }: TripDisplayProps) {
                             value="map"
                             className="data-[state=active]:border-primary gap-1.5 rounded-none border-b-2 border-transparent data-[state=active]:bg-transparent data-[state=active]:shadow-none"
                         >
-                            <Map className="size-4" />
+                            <MapIcon className="size-4" />
                             Map
                         </TabsTrigger>
                     </TabsList>
@@ -142,6 +182,13 @@ export function TripDisplay({ messages, onExportPDF }: TripDisplayProps) {
                                             {...plan}
                                             isActive={i === activeDay}
                                             onSelect={() => setActiveDay(i)}
+                                            onEdit={() =>
+                                                openEdit({
+                                                    type: 'day',
+                                                    day: plan.day,
+                                                    currentTitle: plan.title,
+                                                })
+                                            }
                                         />
                                     ))}
                                 </div>
@@ -167,10 +214,20 @@ export function TripDisplay({ messages, onExportPDF }: TripDisplayProps) {
                                     totalPrice={
                                         flights[flights.length - 1].totalPrice
                                     }
+                                    onEdit={() => openEdit({ type: 'flight' })}
                                 />
                             )}
                             {hotels.length > 0 && (
-                                <HotelCard {...hotels[hotels.length - 1]} />
+                                <HotelCard
+                                    {...hotels[hotels.length - 1]}
+                                    onEdit={() =>
+                                        openEdit({
+                                            type: 'hotel',
+                                            currentName:
+                                                hotels[hotels.length - 1].name,
+                                        })
+                                    }
+                                />
                             )}
                         </div>
                     </ScrollArea>
