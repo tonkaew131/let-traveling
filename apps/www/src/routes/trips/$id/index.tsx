@@ -61,6 +61,23 @@ function RouteComponent() {
         transport: new DefaultChatTransport({ api: '/api/chat' }),
     })
 
+    useEffect(() => {
+        if (!import.meta.env.DEV) return
+
+        console.groupCollapsed(
+            `[trip:${tripId}] messages (${messages.length}) @ ${new Date().toISOString()}`,
+        )
+        for (const m of messages as Array<any>) {
+            console.log('message', {
+                id: m?.id,
+                role: m?.role,
+                parts: m?.parts,
+                raw: m,
+            })
+        }
+        console.groupEnd()
+    }, [messages, tripId])
+
     const lastPersistedRef = useRef<string>('')
     useEffect(() => {
         const key = JSON.stringify(
