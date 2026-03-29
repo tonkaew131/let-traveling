@@ -24,7 +24,7 @@ export const scrapAgodaHotels = async (
     })
     const page = await browser.newPage()
 
-    await page.goto('https://www.agoda.com/')
+    await page.goto('https://www.agoda.com/en-US/')
 
     const searchInput = await page.waitForSelector(
         'input[aria-label="Enter a destination or property"]',
@@ -66,7 +66,7 @@ export const scrapAgodaHotels = async (
             'div[data-element-name="final-price"] > span[data-selenium="display-price"]',
             (_el) => _el.textContent?.trim() || '',
         )
-        const usdToThbRate = 1 // 32.49
+        const usdToThbRate = 32.49 // 32.49
         const price =
             (parseFloat(_price.replace(/[^0-9.]/g, '')) / usdToThbRate) *
             (data.guests / 2)

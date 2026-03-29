@@ -134,11 +134,11 @@ export function HotelCard({
                 </div>
                 <div className="flex items-center justify-between border-t pt-4">
                     <span className="text-muted-foreground text-sm">
-                        ${pricePerNight}/night
+                        ${pricePerNight.toFixed(2)}/night
                     </span>
                     <div className="text-right">
                         <span className="text-foreground text-2xl font-bold">
-                            ${totalPrice.toLocaleString()}
+                            ${totalPrice.toFixed(2)}
                         </span>
                         <span className="text-muted-foreground text-sm">
                             {' '}
