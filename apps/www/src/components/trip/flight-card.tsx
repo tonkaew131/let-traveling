@@ -19,8 +19,14 @@ function FlightSegment({
     flight: FlightData
     label: string
 }) {
-    const departureDate = new Date(flight.departureTime)
-    const arrivalDate = new Date(flight.arrivalTime)
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+    const departureDate = flight?.departureTime
+        ? new Date(flight.departureTime)
+        : null
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+    const arrivalDate = flight?.arrivalTime
+        ? new Date(flight.arrivalTime)
+        : null
 
     return (
         <div className="flex flex-col gap-3">
@@ -46,10 +52,12 @@ function FlightSegment({
             <div className="flex items-center gap-4">
                 <div className="flex flex-col items-center gap-1">
                     <span className="text-foreground text-lg font-semibold">
-                        {departureDate.toLocaleTimeString([], {
-                            hour: '2-digit',
-                            minute: '2-digit',
-                        })}
+                        {departureDate
+                            ? departureDate.toLocaleTimeString([], {
+                                  hour: '2-digit',
+                                  minute: '2-digit',
+                              })
+                            : 'N/A'}
                     </span>
                     <span className="text-muted-foreground text-xs">
                         {flight.departure}
@@ -71,10 +79,12 @@ function FlightSegment({
                 </div>
                 <div className="flex flex-col items-center gap-1">
                     <span className="text-foreground text-lg font-semibold">
-                        {arrivalDate.toLocaleTimeString([], {
-                            hour: '2-digit',
-                            minute: '2-digit',
-                        })}
+                        {arrivalDate
+                            ? arrivalDate.toLocaleTimeString([], {
+                                  hour: '2-digit',
+                                  minute: '2-digit',
+                              })
+                            : 'N/A'}
                     </span>
                     <span className="text-muted-foreground text-xs">
                         {flight.arrival}
@@ -104,7 +114,8 @@ export function FlightCard({
                             variant="secondary"
                             className="bg-primary/10 text-primary border-0"
                         >
-                            {typeof outbound.airline === 'string'
+                            {/* eslint-disable-next-line @typescript-eslint/no-unnecessary-condition */}
+                            {typeof outbound?.airline === 'string'
                                 ? outbound.airline
                                 : 'N/A'}
                         </Badge>
@@ -130,13 +141,14 @@ export function FlightCard({
                 <div className="flex items-center justify-between border-t pt-4">
                     <div className="text-muted-foreground flex items-center gap-2 text-sm">
                         <Badge variant="outline" className="text-xs">
-                            {returnFlight.class || outbound.class || 'N/A'}
+                            {/* eslint-disable-next-line @typescript-eslint/no-unnecessary-condition */}
+                            {returnFlight?.class || outbound?.class || 'N/A'}
                         </Badge>
                         <span>Round trip</span>
                     </div>
                     <div className="text-right">
                         <span className="text-foreground text-2xl font-bold">
-                            ${totalPrice.toLocaleString()}
+                            ${totalPrice ? totalPrice.toLocaleString() : 'N/A'}
                         </span>
                         <span className="text-muted-foreground text-sm">
                             {' '}
