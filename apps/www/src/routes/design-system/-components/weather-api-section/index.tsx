@@ -1,7 +1,7 @@
 // -components/weather-api-section.tsx
 import { useQuery } from '@tanstack/react-query'
 import { useState } from 'react'
-import { IconLoader, IconCloud } from '@tabler/icons-react'
+import { IconCloud, IconLoader } from '@tabler/icons-react'
 import { searchWeather } from './actions'
 import { Card } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
@@ -33,6 +33,7 @@ export default function WeatherApiSection() {
                     value={city}
                     onChange={(e) => setCity(e.target.value)}
                     placeholder="Enter city name..."
+                    className="bg-white"
                 />
                 <Button onClick={() => setEnabled(true)} disabled={isLoading}>
                     <IconCloud /> Fetch Weather
@@ -40,7 +41,7 @@ export default function WeatherApiSection() {
             </div>
 
             {isLoading ? (
-                <IconLoader className="animate-spin" />
+                <IconLoader className="size-4 animate-spin" />
             ) : data?.DailyForecasts ? (
                 <div className="flex flex-wrap gap-2">
                     {data.DailyForecasts.map((forecast: any) => (

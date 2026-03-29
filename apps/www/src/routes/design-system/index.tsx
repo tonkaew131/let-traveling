@@ -2,6 +2,7 @@ import { Link, createFileRoute } from '@tanstack/react-router'
 import { IconChevronLeft } from '@tabler/icons-react'
 import DuffelApiSection from './-components/duffel-api-section'
 import WeatherApiSection from './-components/weather-api-section'
+import AgodaApiSection from './-components/agoda-api-section'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Button } from '@/components/ui/button'
@@ -67,6 +68,10 @@ function RouteComponent() {
                 <section className="grid gap-2">
                     <Label>Duffel API</Label>
                     <DuffelApiSection />
+                </section>
+                <section className="grid gap-2">
+                    <Label>Agoda API</Label>
+                    <AgodaApiSection />
                 </section>
             </main>
         </div>
