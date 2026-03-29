@@ -39,7 +39,7 @@ interface DayPlanCardProps {
     day: number
     date: string
     title: string
-    weather: {
+    weather?: {
         condition: string
         highTemp: number
         lowTemp: number
@@ -115,14 +115,19 @@ export function DayPlanCard({
                         </div>
                     </div>
                     <div className="flex items-center gap-3">
-                        <div className="flex items-center gap-1.5">
-                            {weatherIcons[weather.icon] || (
-                                <Sun className="text-accent size-4" />
-                            )}
-                            <span className="text-foreground text-sm font-medium">
-                                {weather.highTemp}°
+                        {weather ? (
+                            <div className="flex items-center gap-1.5">
+                                {weatherIcons[weather.icon] || (
+                                    <Sun className="text-accent size-4" />
+                                )}
+                                <span className="text-foreground text-sm font-medium">
+                                    {weather.highTemp}°
+                                </span>
+                            </div>
+                        ) : (
+                            <span className="text-muted-foreground text-[10px] italic">
                             </span>
-                        </div>
+                        )}
                         {onEdit && (
                             <Button
                                 type="button"

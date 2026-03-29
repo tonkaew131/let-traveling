@@ -87,7 +87,7 @@ const tools = {
                 lowTemp: z.number(),
                 humidity: z.number(),
                 icon: z.string(),
-            }),
+            }).optional().describe('Weather data for this day. Omit if not available (beyond 5-day forecast).'),
             activities: z
                 .array(activitySchema)
                 .min(3)
@@ -149,7 +149,8 @@ When a user asks you to plan a trip, follow these steps IN ORDER:
    - 4-6 activities with real-ish coordinates for the destination
    - Realistic timing (start around 8-9 AM, end by 9-10 PM)
    - A mix of categories (sightseeing, food, culture, etc.)
-   - The weather data for that specific day
+   - Include the weather object only if valid data was retrieved from getWeather (for the first 5 days). 
+   If the date is beyond the 5-day forecast window, DO NOT include the weather field in this tool call.
 5. Finally, use generateTripSummary to create the overview
 
 IMPORTANT:
