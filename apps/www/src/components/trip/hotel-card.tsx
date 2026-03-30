@@ -63,7 +63,8 @@ export function HotelCard({
                         <div className="flex items-center gap-1">
                             <Star className="fill-accent text-accent size-4" />
                             <span className="text-foreground text-sm font-semibold">
-                                {rating.toFixed(1)}
+                                {/* eslint-disable-next-line @typescript-eslint/no-unnecessary-condition */}
+                                {rating?.toFixed(1) || 'N/A'}
                             </span>
                         </div>
                         {onEdit && (
@@ -134,11 +135,13 @@ export function HotelCard({
                 </div>
                 <div className="flex items-center justify-between border-t pt-4">
                     <span className="text-muted-foreground text-sm">
-                        ${pricePerNight.toFixed(2)}/night
+                        {/* eslint-disable-next-line @typescript-eslint/no-unnecessary-condition */}
+                        ${pricePerNight?.toFixed(2) || 'N/A'}/night
                     </span>
                     <div className="text-right">
                         <span className="text-foreground text-2xl font-bold">
-                            ${totalPrice.toFixed(2)}
+                            {/* eslint-disable-next-line @typescript-eslint/no-unnecessary-condition */}
+                            ${totalPrice?.toFixed(2) || 'N/A'}
                         </span>
                         <span className="text-muted-foreground text-sm">
                             {' '}
