@@ -122,7 +122,8 @@ export function HotelCard({
                     </div>
                 </div>
                 <div className="flex flex-wrap gap-2">
-                    {amenities.map((amenity) => (
+                    {/* eslint-disable-next-line @typescript-eslint/no-unnecessary-condition */}
+                    {(amenities || []).map((amenity) => (
                         <Badge
                             key={amenity}
                             variant="outline"
