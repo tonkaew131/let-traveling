@@ -76,15 +76,15 @@ export async function exportTripPDF(messages: Array<UIMessage>) {
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { font-family: 'DM Sans', 'Google Sans', sans-serif; color: #1a1a1a; padding: 40px; max-width: 800px; margin: 0 auto; }
-    .header { text-align: center; margin-bottom: 32px; padding-bottom: 24px; border-bottom: 2px solid #2d7a5e; }
-    .header h1 { font-size: 28px; color: #2d7a5e; margin-bottom: 4px; }
+    .header { text-align: center; margin-bottom: 32px; padding-bottom: 24px; border-bottom: 2px solid #516FA2; }
+    .header h1 { font-size: 28px; color: #516FA2; margin-bottom: 4px; }
     .header p { font-size: 14px; color: #666; }
     .summary-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 32px; }
     .summary-item { background: #f5f5f0; padding: 12px; border-radius: 8px; text-align: center; }
     .summary-item label { font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: #666; display: block; }
     .summary-item span { font-size: 16px; font-weight: 600; color: #1a1a1a; display: block; margin-top: 4px; }
     .section { margin-bottom: 28px; }
-    .section h2 { font-size: 18px; color: #2d7a5e; margin-bottom: 12px; padding-bottom: 6px; border-bottom: 1px solid #e0e0d8; }
+    .section h2 { font-size: 18px; color: #516FA2; margin-bottom: 12px; padding-bottom: 6px; border-bottom: 1px solid #e0e0d8; }
     .flight-row { display: flex; align-items: center; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #eee; }
     .flight-label { font-size: 10px; text-transform: uppercase; color: #666; }
     .flight-info { font-size: 14px; font-weight: 500; }
@@ -95,15 +95,15 @@ export async function exportTripPDF(messages: Array<UIMessage>) {
     .hotel-amenities span { background: white; padding: 3px 8px; border-radius: 4px; font-size: 11px; border: 1px solid #ddd; }
     .day-plan { margin-bottom: 24px; page-break-inside: avoid; }
     .day-header { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
-    .day-number { width: 36px; height: 36px; background: #2d7a5e; color: white; display: flex; align-items: center; justify-content: center; border-radius: 8px; font-weight: 700; font-size: 14px; }
+    .day-number { width: 36px; height: 36px; background: #516FA2; color: white; display: flex; align-items: center; justify-content: center; border-radius: 8px; font-weight: 700; font-size: 14px; }
     .day-title h3 { font-size: 15px; }
     .day-title p { font-size: 12px; color: #666; }
     .activity { display: flex; gap: 12px; padding: 8px 0; border-bottom: 1px solid #f0f0e8; }
-    .activity-time { width: 70px; font-size: 12px; font-weight: 600; color: #2d7a5e; flex-shrink: 0; padding-top: 2px; }
+    .activity-time { width: 70px; font-size: 12px; font-weight: 600; color: #516FA2; flex-shrink: 0; padding-top: 2px; }
     .activity-content h4 { font-size: 13px; font-weight: 600; }
     .activity-content p { font-size: 12px; color: #666; margin-top: 2px; }
     .activity-meta { display: flex; gap: 12px; margin-top: 4px; font-size: 11px; color: #999; }
-    .day-total { text-align: right; font-size: 13px; font-weight: 600; padding-top: 8px; color: #2d7a5e; }
+    .day-total { text-align: right; font-size: 13px; font-weight: 600; padding-top: 8px; color: #516FA2; }
     .footer { text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid #e0e0d8; font-size: 11px; color: #999; }
   </style>
 </head>
@@ -169,7 +169,7 @@ export async function exportTripPDF(messages: Array<UIMessage>) {
       <p>${hotel.location} · Rating: ${hotel.rating?.toFixed(1)}/5</p>
       <p>Check-in: ${new Date(hotel.checkIn).toLocaleDateString()} · Check-out: ${new Date(hotel.checkOut).toLocaleDateString()}</p>
       <div class="hotel-amenities">${(hotel.amenities || []).map((a: string) => `<span>${a}</span>`).join('')}</div>
-      <p style="margin-top: 10px; font-weight: 600; color: #2d7a5e;">$${(hotel.pricePerNight as number).toFixed(2)}/night · Total: $${(hotel.totalPrice as number).toFixed(2)}</p>
+      <p style="margin-top: 10px; font-weight: 600; color: #516FA2;">$${(hotel.pricePerNight as number).toFixed(2)}/night · Total: $${(hotel.totalPrice as number).toFixed(2)}</p>
     </div>
   </div>
   `
