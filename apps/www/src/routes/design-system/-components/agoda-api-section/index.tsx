@@ -1,6 +1,6 @@
 import { IconSearch } from '@tabler/icons-react'
 import { useMutation } from '@tanstack/react-query'
-import { searchHotels } from './actions'
+import { searchHotels } from './actions.server'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 

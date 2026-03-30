@@ -80,14 +80,19 @@ const tools = {
                 .describe(
                     'Optional user instruction to update this specific day plan, e.g. "shopping instead of temples"',
                 ),
-            weather: z.object({
-                date: z.string(),
-                condition: z.string(),
-                highTemp: z.number(),
-                lowTemp: z.number(),
-                humidity: z.number(),
-                icon: z.string(),
-            }).optional().describe('Weather data for this day. Omit if not available (beyond 5-day forecast).'),
+            weather: z
+                .object({
+                    date: z.string(),
+                    condition: z.string(),
+                    highTemp: z.number(),
+                    lowTemp: z.number(),
+                    humidity: z.number(),
+                    icon: z.string(),
+                })
+                .optional()
+                .describe(
+                    'Weather data for this day. Omit if not available (beyond 5-day forecast).',
+                ),
             activities: z
                 .array(activitySchema)
                 .min(3)

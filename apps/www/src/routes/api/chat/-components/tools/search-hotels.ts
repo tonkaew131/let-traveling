@@ -1,6 +1,6 @@
 import { tool } from 'ai'
 import * as z from 'zod'
-import { scrapAgodaHotels } from '@/routes/design-system/-components/agoda-api-section/actions'
+import { scrapAgodaHotels } from '@/routes/design-system/-components/agoda-api-section/actions.server'
 
 export type Hotel = {
     name: string

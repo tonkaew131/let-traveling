@@ -125,8 +125,7 @@ export function DayPlanCard({
                                 </span>
                             </div>
                         ) : (
-                            <span className="text-muted-foreground text-[10px] italic">
-                            </span>
+                            <span className="text-muted-foreground text-[10px] italic"></span>
                         )}
                         {onEdit && (
                             <Button
