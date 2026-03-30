@@ -145,8 +145,6 @@ export const searchFlights = tool({
             // max_connections: 0,
         })
 
-        await redis.set(cacheKey, JSON.stringify(results), 'EX', 60 * 60) // Cache for 1 hour
-
         const cheapestOffer = results.data.offers.reduce((cheapest, offer) => {
             const totalAmount = parseFloat(offer.total_amount)
             return totalAmount < parseFloat(cheapest.total_amount)
@@ -196,7 +194,7 @@ export const searchFlights = tool({
             },
         )
 
-        return {
+        const output = {
             totalPrice: parseFloat(cheapestOffer.total_amount),
             outbound: {
                 airline: outboundSlice.segments[0].operating_carrier.name,
@@ -235,5 +233,8 @@ export const searchFlights = tool({
                 arrivalZone: returnSlice.segments[0].destination.time_zone,
             },
         } as SearchFlightsResult
+
+        await redis.set(cacheKey, JSON.stringify(output), 'EX', 60 * 60) // Cache for 1 hour
+        return output
     },
 })

@@ -31,7 +31,8 @@ function FlightSegment({
     return (
         <div className="flex flex-col gap-3">
             <div className="flex items-center gap-2">
-                {flight.airlineLogoUrl && (
+                {/* eslint-disable-next-line @typescript-eslint/no-unnecessary-condition */}
+                {flight?.airlineLogoUrl && (
                     <img
                         src={flight.airlineLogoUrl}
                         alt={flight.airline}
