@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unnecessary-condition */
 import type { UIMessage } from 'ai'
 
 interface Activity {
@@ -168,7 +169,7 @@ export async function exportTripPDF(messages: Array<UIMessage>) {
       <p>${hotel.location} · Rating: ${hotel.rating?.toFixed(1)}/5</p>
       <p>Check-in: ${new Date(hotel.checkIn).toLocaleDateString()} · Check-out: ${new Date(hotel.checkOut).toLocaleDateString()}</p>
       <div class="hotel-amenities">${(hotel.amenities || []).map((a: string) => `<span>${a}</span>`).join('')}</div>
-      <p style="margin-top: 10px; font-weight: 600; color: #2d7a5e;">$${hotel.pricePerNight}/night · Total: $${hotel.totalPrice?.toLocaleString()}</p>
+      <p style="margin-top: 10px; font-weight: 600; color: #2d7a5e;">$${(hotel.pricePerNight as number).toFixed(2)}/night · Total: $${(hotel.totalPrice as number).toFixed(2)}</p>
     </div>
   </div>
   `
@@ -185,7 +186,7 @@ export async function exportTripPDF(messages: Array<UIMessage>) {
         <div class="day-number">${plan.day}</div>
         <div class="day-title">
           <h3>${plan.title}</h3>
-          <p>${new Date(plan.date).toLocaleDateString(undefined, { weekday: 'long', month: 'long', day: 'numeric' })} · ${plan.weather.condition} · ${plan.weather.highTemp}°/${plan.weather.lowTemp}°</p>
+          <p>${new Date(plan.date).toLocaleDateString(undefined, { weekday: 'long', month: 'long', day: 'numeric' })} ${plan?.weather ? `· ${plan.weather.condition} · ${plan.weather.highTemp}°/${plan.weather.lowTemp}°` : ''}</p>
         </div>
       </div>
       ${plan.activities
