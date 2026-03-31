@@ -8,7 +8,7 @@ import { nitro } from 'nitro/vite'
 
 const config = defineConfig({
     server: {
-        allowedHosts: ['network-val-interaction-rico.trycloudflare.com'],
+        allowedHosts: ['except-professional-fog-authorized.trycloudflare.com'],
     },
     plugins: [
         devtools(),
