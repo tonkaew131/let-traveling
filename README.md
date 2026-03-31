@@ -1,8 +1,13 @@
 # Let's Traveling
 
+|                                               |                                               |
+| :-------------------------------------------: | :-------------------------------------------: |
+| ![Landing Page](apps/docs/images/landing.png) | ![Trip Overall](apps/docs/images/overall.png) |
+| ![Flight Search](apps/docs/images/flight.png) |       ![Map](apps/docs/images/map.png)        |
+
 AI-powered travel planning web app that turns a single prompt into an itinerary and lets you refine the plan via chat (flights/hotels/weather) and export the result as a PDF.
 
-> [!NOTE] 
+> [!NOTE]
 > This project is part of the Generative AI course (040613708) at KMUTNB Computer Science.
 
 ## Features
