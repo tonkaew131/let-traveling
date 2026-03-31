@@ -6,6 +6,8 @@
   ],
   "scripts": {
     "dev": "dotenv -- bun run --filter \"@let-traveling/www\" --elide-lines=0 dev",
+    "build": "dotenv -- bun run --filter \"@let-traveling/www\" build",
+    "preview": "dotenv -- bun run --filter \"@let-traveling/www\" preview",
     "format": "bun run --filter \"*\" format",
     "db:generate": "dotenv -- bun run --filter @let-traveling/www db:generate",
     "db:migrate": "dotenv -- bun run --filter @let-traveling/www --elide-lines=0 db:migrate",

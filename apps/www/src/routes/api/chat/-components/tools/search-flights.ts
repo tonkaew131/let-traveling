@@ -116,6 +116,18 @@ export const searchFlights = tool({
         travelers: z.number().describe('Number of travelers'),
     }),
     execute: async ({ from, to, departureDate, returnDate, travelers }) => {
+        const today = new Date()
+        const departure = new Date(departureDate)
+        const returnD = new Date(returnDate)
+
+        if (departure < today) {
+            throw new Error('Departure date cannot be in the past')
+        }
+
+        if (returnD < departure) {
+            throw new Error('Return date cannot be before departure date')
+        }
+
         const cacheKey = `searchFlights:${from}:${to}:${departureDate}:${returnDate}:${travelers}`
         const cachedResult = await redis.get(cacheKey)
         if (cachedResult) {
